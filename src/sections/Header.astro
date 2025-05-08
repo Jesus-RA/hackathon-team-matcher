@@ -1,0 +1,19 @@
+---
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/astro/components';
+---
+
+<header class="flex items-center justify-between px-36 py-4">
+    <h1>Hackathon Matcher</h1>
+
+    <section>
+        <SignedOut>
+            <SignInButton mode="modal">
+                Log in
+            </SignInButton>
+        </SignedOut>
+    
+        <SignedIn>
+            <UserButton showName></UserButton>
+        </SignedIn>
+    </section>
+</header>
