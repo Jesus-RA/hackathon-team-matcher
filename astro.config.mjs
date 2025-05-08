@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import node from "@astrojs/node";
 import clerk from "@clerk/astro";
 
@@ -12,5 +12,11 @@ export default defineConfig({
   output: "server",
   vite: {
     plugins: [tailwindcss()]
+  },
+  env: {
+    schema: {
+      SUPABASE_URL: envField.string({ context: 'server', access: 'secret' }),
+      SUPABASE_ANON_KEY: envField.string({ context: 'server', access: 'secret' }),
+    }
   }
 });
