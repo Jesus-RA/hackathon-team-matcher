@@ -1,0 +1,78 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/sections/Header.astro';
+
+import ProfileForm from '@/components/profile/ProfileForm.vue';
+
+import { getUsersWithTechnologies, haveUserTechnologiesBeenFetched } from '@/lib/user_profile.js';
+import { calculateMatchingScore } from '@/lib/users_matching.js';
+import { fetchUserRepos, getUserTechnologiesBasedOnRepos } from '@/lib/github.js';
+
+const user = await Astro.locals.currentUser();
+const username = user?.username;
+
+/*const { data, error } = await getUsersWithTechnologies()
+const usersMatchingScores = calculateMatchingScore(data[0], data[1])
+console.log(usersMatchingScores)
+const userRepos = await fetchUserRepos(username)
+console.log({username, userRepos})
+*/
+
+
+let technologies = [];
+const technologiesFetched = await haveUserTechnologiesBeenFetched('random_string1');
+if(username && !technologiesFetched){
+    technologies = await getUserTechnologiesBasedOnRepos(username);
+    console.log({technologies})
+}
+console.log({technologiesFetched})
+---
+
+<Layout title="Profile">
+    <Header />
+
+    <section class="container mx-auto px-4 py-8">
+        <p>Technologies:</p>
+        <ul class="flex gap-2">
+            {technologies.map( tech => <li class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 w-auto">{tech}</li>)}
+        </ul>
+        <p>TODO: Add functionality to auto populate technologies based on GitHub repositories</p>
+    </section>
+
+    <!-- <main class="container mx-auto px-4 py-8">
+        {error && <p class="text-red-500">Error loading users: {error.message}</p>}
+        
+        {data && (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {data.map((profile) => (
+                    <div class="border rounded-lg p-4 shadow">
+                        <h2 class="text-xl font-bold">{profile.github_username}</h2>
+                        <div class="mt-2">
+                            <h3 class="font-semibold">Technologies:</h3>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                {profile.technologies.map((tech) => (
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                                        {tech.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-semibold">Match Score:</h3>
+                            <section class="mt-1">
+                                {usersMatchingScores && 
+                                    Object.entries(usersMatchingScores).map(([criteria, score]) => {
+                                        <p>
+                                            {criteria}: <span>{score}</span>
+                                        </p>
+                                    })
+                                }
+                            </section>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )}
+    </main> -->
+    <ProfileForm />
+</Layout>
