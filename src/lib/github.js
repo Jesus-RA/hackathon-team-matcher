@@ -51,10 +51,11 @@ export const fetchUserProfile = async (username) => {
 
     try{
         const response = await fetch(`${BASE_URL}/users/${username}`, { headers });
-        const { id, blog, public_repos, followers, created_at } = await response.json();
+        const { id, bio, blog, public_repos, followers, created_at } = await response.json();
 
         return {
             id,
+            bio,
             blog,
             public_repos,
             followers,
