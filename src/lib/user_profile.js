@@ -23,3 +23,17 @@ export const getUsersWithTechnologies = async () => {
 
     return { data, error };
 }
+
+export const haveUserTechnologiesBeenFetched = async (userId) => {
+    const { data, error } = await supabase
+        .from('user_profiles')
+        .select('technologies_fetched_from_github')
+        .eq('clerk_user_id', userId)
+        .single();
+
+    if(error) {
+        throw error;
+    }
+
+    return data?.technologies_fetched_from_github;
+}
