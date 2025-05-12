@@ -1,20 +1,23 @@
 <template>
-    <div class="space-y-8">
+    <div class="max-w-4xl mx-auto flex flex-col gap-y-6">
+      <h1 class="text-3xl font-bold mb-8">Your Developer Profile</h1>
+
       <BasicInfoForm />
       <TechnologiesForm />
       <InterestsForm />
       <LookingForForm />
       <ProjectsForm />
+
+      <div class="flex justify-end">
+        <button 
+          @click="saveProfile" 
+          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
+        >
+          Save Profile
+        </button>
+      </div>
     </div>
-    <div class="flex justify-end">
-      <button 
-        @click="saveProfile" 
-        class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
-      >
-        Save Profile
-      </button>
-    </div>
-    <Toaster richColors position="top-center" />
+    <Toaster richColors position="top-right" />
 </template>
 
 <script setup>
@@ -72,6 +75,8 @@ const saveProfile = async () => {
     if(!response.ok){
       throw new Error('Failed to save profile');
     }
+
+    toast.success('Profile saved successfully');
 
     console.log('Profile saved successfully');
   }catch(error){

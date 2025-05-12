@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+  <section class="light-dark-theme rounded-lg p-6 shadow-sm">
     <h2 class="text-xl font-bold mb-4">Projects</h2>
     <div class="space-y-6">
       <div v-for="(project, index) in projects" :key="index" class="space-y-4 pb-4 border-b border-gray-200 dark:border-gray-700">

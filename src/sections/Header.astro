@@ -1,27 +1,44 @@
 ---
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components';
+import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 ---
 
-<header class="flex items-center justify-between px-36 py-4">
-    <h1>Hackathon Matcher</h1>
+<header class="flex items-center justify-between px-36 py-4 border-b border-gray-200 dark:border-gray-700">
+    <a href="/" class="text-xl font-bold">Hackathon Team Matcher</a>
 
-    <section>
+    <section class="flex items-center gap-x-3">
         <SignedOut>
-            <SignInButton mode="modal">
+            <SignInButton mode="modal" class={"cursor-pointer"}>
                 Log in
             </SignInButton>
-            <SignUpButton mode="modal" signInFallbackRedirectUrl="/profile" fallbackRedirectUrl="/profile">
+            <SignUpButton mode="modal" signInFallbackRedirectUrl="/profile" fallbackRedirectUrl="/profile" class={"cursor-pointer"}>
                 Sign up
             </SignUpButton>
         </SignedOut>
     
         <SignedIn>
-            <div class="flex items-center gap-x-3">
-                <a href="/profile">
+            <div class="flex items-center gap-x-3 font-normal">
+                <a href="/" class="cursor-pointer">
+                    Home
+                </a>
+                <a href="/profile" class="cursor-pointer">
                     Profile
                 </a>
-                <UserButton showName></UserButton>
+                <UserButton showName appearance={{
+                    elements: {
+                        userButtonOuterIdentifier: {
+                            fontSize: '1rem',
+                            fontWeight: 'normal',
+                            paddingLeft: 0,
+                            color: 'black',
+                            '.dark &': {
+                                color: 'white',
+                            }
+                        },
+                    }
+                }}></UserButton>
             </div>
         </SignedIn>
+        <ThemeToggle client:load />
     </section>
 </header>
