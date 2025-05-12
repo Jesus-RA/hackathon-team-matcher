@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.2.1",
+    "@astrojs/vercel": "^8.1.4",
     "@astrojs/vue": "^5.0.13",
     "@clerk/astro": "^2.7.1",
     "@nanostores/vue": "^1.0.0",

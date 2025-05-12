@@ -7,10 +7,16 @@ import tailwindcss from '@tailwindcss/vite';
 
 import vue from '@astrojs/vue';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [clerk(), vue()],
-  adapter: node({ mode: "standalone" }),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    }
+  }),
   output: "server",
   vite: {
     plugins: [tailwindcss()]
