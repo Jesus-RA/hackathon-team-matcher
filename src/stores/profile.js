@@ -76,8 +76,8 @@ export const setTechnologies = (technologies) => {
   $userProfile.setKey('technologies', technologies);
 }
 
-export const removeTechnology = (index) => {
-  $userProfile.value.technologies.splice(index, 1);
+export const removeTechnology = (technologyId) => {
+  $userProfile.setKey('technologies', $userProfile.value.technologies.filter(t => t.id !== technologyId));
 }
 
 export const addInterest = (interest) => {
