@@ -16,7 +16,7 @@ importers:
         version: 5.0.13(@types/node@22.15.16)(astro@5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3))(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(vue@3.5.13(typescript@5.8.3))
       '@clerk/astro':
         specifier: ^2.7.1
-        version: 2.7.1(astro@5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3))(react@19.1.0)
+        version: 2.7.1(astro@5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@nanostores/vue':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@1.0.1)(vue@3.5.13(typescript@5.8.3))
@@ -38,6 +38,9 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
+      vue-sonner:
+        specifier: ^1.3.2
+        version: 1.3.2
 
 packages:
 
@@ -1805,6 +1808,11 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
 
+  react-dom@19.1.0:
+    resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
+    peerDependencies:
+      react: ^19.1.0
+
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
@@ -1876,6 +1884,9 @@ packages:
   run-applescript@7.0.0:
     resolution: {integrity: sha512-9by4Ij99JUr/MCFBUkDKLWK3G9HVXmabKz9U5MlIAIuvuzkiOicRYs8XJLxX+xahD+mLiiCYDqF9dKAgtzKP1A==}
     engines: {node: '>=18'}
+
+  scheduler@0.26.0:
+    resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -2254,6 +2265,9 @@ packages:
       vite:
         optional: true
 
+  vue-sonner@1.3.2:
+    resolution: {integrity: sha512-UbZ48E9VIya3ToiRHAZUbodKute/z/M1iT8/3fU8zEbwBRE11AKuHikssv18LMk2gTTr6eMQT4qf6JoLHWuj/A==}
+
   vue@3.5.13:
     resolution: {integrity: sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==}
     peerDependencies:
@@ -2625,10 +2639,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@clerk/astro@2.7.1(astro@5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3))(react@19.1.0)':
+  '@clerk/astro@2.7.1(astro@5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@clerk/backend': 1.31.4(react@19.1.0)
-      '@clerk/shared': 3.8.1(react@19.1.0)
+      '@clerk/backend': 1.31.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@clerk/shared': 3.8.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@clerk/types': 4.57.1
       astro: 5.7.11(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.2)(typescript@5.8.3)
       nanoid: 5.0.9
@@ -2638,9 +2652,9 @@ snapshots:
       - react-dom
       - svix
 
-  '@clerk/backend@1.31.4(react@19.1.0)':
+  '@clerk/backend@1.31.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@clerk/shared': 3.8.1(react@19.1.0)
+      '@clerk/shared': 3.8.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@clerk/types': 4.57.1
       cookie: 1.0.2
       snakecase-keys: 8.0.1
@@ -2649,7 +2663,7 @@ snapshots:
       - react
       - react-dom
 
-  '@clerk/shared@3.8.1(react@19.1.0)':
+  '@clerk/shared@3.8.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@clerk/types': 4.57.1
       dequal: 2.0.3
@@ -2659,6 +2673,7 @@ snapshots:
       swr: 2.3.3(react@19.1.0)
     optionalDependencies:
       react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@clerk/types@4.57.1':
     dependencies:
@@ -4353,6 +4368,12 @@ snapshots:
 
   range-parser@1.2.1: {}
 
+  react-dom@19.1.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      scheduler: 0.26.0
+    optional: true
+
   react@19.1.0: {}
 
   readdirp@4.1.2: {}
@@ -4489,6 +4510,9 @@ snapshots:
       fsevents: 2.3.3
 
   run-applescript@7.0.0: {}
+
+  scheduler@0.26.0:
+    optional: true
 
   semver@6.3.1: {}
 
@@ -4849,6 +4873,8 @@ snapshots:
   vitefu@1.0.6(vite@6.3.5(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)):
     optionalDependencies:
       vite: 6.3.5(@types/node@22.15.16)(jiti@2.4.2)(lightningcss@1.29.2)
+
+  vue-sonner@1.3.2: {}
 
   vue@3.5.13(typescript@5.8.3):
     dependencies:

@@ -1,0 +1,64 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/sections/Header.astro';
+import ProfileForm from '@/components/profile/ProfileForm.vue';
+
+import { calculateMatchingScore } from '@/lib/users_matching.js';
+import { getUserProfile } from '@/lib/user_profile.js';
+
+const user = await Astro.locals.currentUser();
+if(!user) {
+    Astro.redirect('/sign-in');
+    return;
+}
+
+const profileData = await getUserProfile(user);
+console.log({profileData})
+
+/*const { data, error } = await getUsersWithTechnologies()
+const usersMatchingScores = calculateMatchingScore(data[0], data[1])
+console.log(usersMatchingScores)
+const userRepos = await fetchUserRepos(username)
+console.log({username, userRepos})
+*/
+---
+
+<Layout title="Profile">
+    <Header />
+    <!-- <main class="container mx-auto px-4 py-8">
+        {error && <p class="text-red-500">Error loading users: {error.message}</p>}
+        
+        {data && (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {data.map((profile) => (
+                    <div class="border rounded-lg p-4 shadow">
+                        <h2 class="text-xl font-bold">{profile.github_username}</h2>
+                        <div class="mt-2">
+                            <h3 class="font-semibold">Technologies:</h3>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                {profile.technologies.map((tech) => (
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                                        {tech.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="font-semibold">Match Score:</h3>
+                            <section class="mt-1">
+                                {usersMatchingScores && 
+                                    Object.entries(usersMatchingScores).map(([criteria, score]) => {
+                                        <p>
+                                            {criteria}: <span>{score}</span>
+                                        </p>
+                                    })
+                                }
+                            </section>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )}
+    </main> -->
+    <ProfileForm client:load profile={profileData}/>
+</Layout>

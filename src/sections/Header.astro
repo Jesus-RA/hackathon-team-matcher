@@ -1,5 +1,5 @@
 ---
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/astro/components';
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components';
 ---
 
 <header class="flex items-center justify-between px-36 py-4">
@@ -10,10 +10,18 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/astro/comp
             <SignInButton mode="modal">
                 Log in
             </SignInButton>
+            <SignUpButton mode="modal" signInFallbackRedirectUrl="/profile" fallbackRedirectUrl="/profile">
+                Sign up
+            </SignUpButton>
         </SignedOut>
     
         <SignedIn>
-            <UserButton showName></UserButton>
+            <div class="flex items-center gap-x-3">
+                <a href="/profile">
+                    Profile
+                </a>
+                <UserButton showName></UserButton>
+            </div>
         </SignedIn>
     </section>
 </header>
