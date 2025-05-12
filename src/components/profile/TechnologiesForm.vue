@@ -5,7 +5,7 @@
       <div class="flex gap-2">
         <input v-model="technology" list="technologies" type="text" placeholder="Technology name" class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900">
         <datalist id="technologies">
-          <option v-for="(tech, index) in $technologies" :key="index" :value="tech.name">{{ tech.name }}</option>
+          <option v-for="(tech, index) in $technologies.value" :key="index" :value="tech.name">{{ tech.name }}</option>
         </datalist>
         <button 
           @click="localAddTechnology(technology)" 
