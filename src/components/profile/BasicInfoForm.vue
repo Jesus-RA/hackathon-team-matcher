@@ -37,8 +37,8 @@
           <span class="text-xs text-gray-300">Add your username to fetch your data from GitHub</span>
           <button
             class="px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
-            :class="{ 'opacity-50 cursor-not-allowed': !githubUsername || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': githubUsername && !loadingGitHubData }"
-            :disabled="!githubUsername || loadingGitHubData"
+            :class="{ 'opacity-50 cursor-not-allowed': !form.github_username || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': form.github_username && !loadingGitHubData }"
+            :disabled="!form.github_username || loadingGitHubData"
             @click="fetchUserDataFromGitHub"
           >
             Pull data <span v-if="!loadingGitHubData">↓</span>
@@ -83,7 +83,6 @@ import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 const userProfile = useStore($userProfile);
 const authStore = useStore($authStore);
 
-const githubUsername = ref('');
 const userProfileExistsInDB = ref(false);
 const loadingGitHubData = ref(false);
 const form = ref({
@@ -111,7 +110,7 @@ const updateUserProfileStore = (key, value) => {
 const fetchUserDataFromGitHub = async () => {
   loadingGitHubData.value = true;
 
-  const response = await fetch(`/api/github?username=${encodeURIComponent(githubUsername.value)}`);
+  const response = await fetch(`/api/github?username=${encodeURIComponent(form.github_username.value)}`);
   if (response.ok) {
     const { profile, technologies } = await response.json();
 
