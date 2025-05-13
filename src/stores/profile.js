@@ -12,7 +12,7 @@ export const $userProfile = map({
   interests: [],
   looking_for: [],
   projects: [],
-  technologiesFetched: false, 
+  technologiesFetched: false,
 });
 
 export const setGitHubUsername = (username) => {

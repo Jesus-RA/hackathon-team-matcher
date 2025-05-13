@@ -1,19 +1,47 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import Header from '@/sections/Header.astro';
 import ProfileForm from '@/components/profile/ProfileForm.vue';
 
 import { calculateMatchingScore } from '@/lib/users_matching.js';
-import { getUserProfile } from '@/lib/user_profile.js';
+import { userProfileExists, getUserWithTechnologies } from '@/lib/user_profile.js';
+import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.js';
 
 const user = await Astro.locals.currentUser();
+
 if(!user) {
     Astro.redirect('/sign-in');
     return;
 }
 
-const profileData = await getUserProfile(user);
-console.log({profileData})
+const profileData = {
+    name: user?.fullName ?? '',
+    github_username: user.username ?? '',
+    portfolio: '',
+    bio: '',
+    technologies: [],
+    data_fetched_from_github: false,
+};
+
+const userProfileExistsInDB = await userProfileExists(user.id);
+if(userProfileExistsInDB){// If user profile exists in DB, get it from DB
+    const profile = await getUserWithTechnologies(user.id);
+
+    Object.entries(profile).forEach(([key, value]) => {
+        profileData[key] = value;
+    });
+
+} else if(profileData.github_username){ // If user profile does not exist in DB and user logged in through GitHub, fetch it from github (logged in for the first time)
+    profileData.data_fetched_from_github = true;
+
+    const [profile, technologies] = await Promise.all([
+        fetchUserProfile(profileData.github_username),
+        getUserTechnologiesBasedOnRepos(profileData.github_username)
+    ]);
+
+    profileData.portfolio = profile?.blog;
+    profileData.bio = profile?.bio;
+    profileData.technologies = technologies;
+}
 
 /*const { data, error } = await getUsersWithTechnologies()
 const usersMatchingScores = calculateMatchingScore(data[0], data[1])

@@ -42,7 +42,7 @@ export const fetchUserRepos = async (username) => {
 /**
  * Fetches the user's profile from GitHub
  * @param {string} username - The GitHub username
- * @returns {Promise<{id: number, blog: string, public_repos: number, followers: number, created_at: string}>} - The user's profile
+ * @returns {Promise<{id: number, name: string, bio: string, blog: string, public_repos: number, followers: number, created_at: string}>} - The user's profile
  */
 export const fetchUserProfile = async (username) => {
     if(!username) {
@@ -51,10 +51,11 @@ export const fetchUserProfile = async (username) => {
 
     try{
         const response = await fetch(`${BASE_URL}/users/${username}`, { headers });
-        const { id, bio, blog, public_repos, followers, created_at } = await response.json();
+        const { id, name, bio, blog, public_repos, followers, created_at } = await response.json();
 
         return {
             id,
+            name,
             bio,
             blog,
             public_repos,

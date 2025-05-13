@@ -33,7 +33,7 @@ export const getUsersWithTechnologies = async () => {
 export const getUserWithTechnologies = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, github_username, portfolio, bio, user_technologies (technologies (id, name ) )')
+        .select('clerk_user_id, name, github_username, portfolio, bio, user_technologies (technologies (id, name ) )')
         .eq('clerk_user_id', userId)
         .single();
 
@@ -78,6 +78,19 @@ export const getUserTechnologies = async (userId) => {
     }
 
     return data?.map( t => t.technologies);
+}
+
+export const userProfileExists = async (userId) => {
+    const { data, error } = await supabase
+        .from('user_profiles')
+        .select('clerk_user_id')
+        .eq('clerk_user_id', userId);
+
+    if(error) {
+        throw error;
+    }
+
+    return data?.length > 0;
 }
 
 /**

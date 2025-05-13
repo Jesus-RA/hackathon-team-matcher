@@ -6,7 +6,8 @@
         <label for="name" class="block text-sm font-medium mb-1">Full Name</label>
         <input 
           id="name" 
-          v-model="userProfile.name" 
+          v-model="form.name"
+          @change="updateUserProfileStore('name', form.name)"
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         />
@@ -15,25 +16,42 @@
         <label for="title" class="block text-sm font-medium mb-1">Job Title</label>
         <input 
           id="title" 
-          v-model="userProfile.title" 
+          v-model="form.title"
+          @change="updateUserProfileStore('title', form.title)"
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         />
       </div>
       <div>
-        <label for="github_username" class="block text-sm font-medium mb-1">GitHub Username</label>
+        <label for="github_username" class="block text-sm font-medium mb-1 w-full grow-1">
+          GitHub Username
+        </label>
         <input 
           id="github_username" 
-          v-model="userProfile.github_username" 
+          v-model="form.github_username"
+          @change="updateUserProfileStore('github_username', form.github_username)" 
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         />
+        <div v-if="!userProfileExistsInDB" class="flex items-center justify-between gap-x-2 mt-2">
+          <span class="text-xs text-gray-300">Add your username to fetch your data from GitHub</span>
+          <button
+            class="px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
+            :class="{ 'opacity-50 cursor-not-allowed': !githubUsername || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': githubUsername && !loadingGitHubData }"
+            :disabled="!githubUsername || loadingGitHubData"
+            @click="fetchUserDataFromGitHub"
+          >
+            Pull data <span v-if="!loadingGitHubData">↓</span>
+            <SpinnerLoader v-else />
+          </button>
+        </div>
       </div>
       <div>
         <label for="portfolio" class="block text-sm font-medium mb-1">Portfolio</label>
         <input 
           id="portfolio" 
-          v-model="userProfile.portfolio" 
+          v-model="form.portfolio"
+          @change="updateUserProfileStore('portfolio', form.portfolio)" 
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         />
@@ -42,7 +60,8 @@
         <label for="bio" class="block text-sm font-medium mb-1">Bio</label>
         <textarea 
           id="bio" 
-          v-model="userProfile.bio" 
+          v-model="form.bio"
+          @change="updateUserProfileStore('bio', form.bio)" 
           rows="3" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         ></textarea>
@@ -53,7 +72,64 @@
 
 <script setup>
 import { $userProfile } from '@/stores/profile.js';
+import { $technologies } from '@/stores/technologies.js';
+import { $authStore } from '@clerk/astro/client';
 import { useStore } from '@nanostores/vue';
+import GitHub from '@/components/icons/GitHub.vue';
+import { userProfileExists } from '@/lib/user_profile.js';
+import { ref, watch } from 'vue';
+import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 
 const userProfile = useStore($userProfile);
+const authStore = useStore($authStore);
+
+const githubUsername = ref('');
+const userProfileExistsInDB = ref(false);
+const loadingGitHubData = ref(false);
+const form = ref({
+  name: '',
+  title: '',
+  github_username: '',
+  portfolio: '',
+  bio: '',
+})
+
+// Populate form when userProfile is loaded
+watch(() => userProfile.value, (newValue) => {
+  form.value = {...newValue};
+});
+
+// Check if user profile exists in DB when authStore.user is loaded
+watch(() => authStore.value.user, async (loadedUser) => {
+  userProfileExistsInDB.value = await userProfileExists(loadedUser.id);
+})
+
+const updateUserProfileStore = (key, value) => {
+  $userProfile.setKey(key, value);
+}
+
+const fetchUserDataFromGitHub = async () => {
+  loadingGitHubData.value = true;
+
+  const response = await fetch(`/api/github?username=${encodeURIComponent(githubUsername.value)}`);
+  if (response.ok) {
+    const { profile, technologies } = await response.json();
+
+    $userProfile.setKey('name', profile.name);
+    $userProfile.setKey('portfolio', profile.blog);
+    $userProfile.setKey('bio', profile.bio);
+
+    const userTechnologiesFromGitHub = $technologies.value.filter((tech) => {
+      return technologies.includes(tech.name);
+    });
+
+    userTechnologiesFromGitHub.length && $userProfile.setKey('technologies', userTechnologiesFromGitHub);
+    $userProfile.setKey('data_fetched_from_github', true);
+  } else {
+    const error = await response.json();
+    console.error('Error:', error.error);
+  }
+  loadingGitHubData.value = false;
+}
+
 </script>

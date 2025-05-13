@@ -53,6 +53,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
         }*/
 
         const updateData = {
+            clerk_user_id: user.id,
+            name: body.name,
             github_username: body.github_username,
             portfolio: body.portfolio,
             bio: body.bio,
@@ -65,7 +67,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         // Save to Supabase
         const { error } = await supabase
             .from('user_profiles')
-            .update(updateData)
+            .upsert(updateData)
             .eq('clerk_user_id', user.id);
 
         if(error){
