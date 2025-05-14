@@ -3,10 +3,72 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@cl
 import ThemeToggle from '@/components/ui/ThemeToggle.astro';
 ---
 
-<header class="flex items-center justify-between px-36 py-4 border-b border-gray-200 dark:border-gray-700">
-    <a href="/" class="text-xl font-bold">Hackathon Team Matcher</a>
+<header class="flex items-center justify-between px-4 md:px-36 py-4 border-b border-gray-200 dark:border-gray-700">
+    <a href="/" class="text-lg md:text-xl font-bold">Hackathon Team Matcher</a>
 
-    <section class="flex items-center gap-x-3">
+    <section class="flex gap-x-3">
+        <ThemeToggle />
+        <button class="cursor-pointer" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+            </svg>
+        </button>
+        <dialog class="bg-transparent size-full top-0 right-0 max-h-full max-w-full backdrop:bg-gray-900/70 transition-discrete starting:open:translate-x-full translate-x-full open:translate-x-0 duration-300">
+            <div class="light-dark-theme h-full w-1/2 ml-auto p-4 flex flex-col gap-y-2">
+                <button class="cursor-pointer self-end outline-none close-menu-button" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <SignedOut>
+                    <ul class="flex flex-col gap-y-4">
+                        <SignInButton mode="modal" class={"cursor-pointer w-fit close-menu-button"}>
+                            Log in
+                        </SignInButton>
+                        <SignUpButton mode="modal" signInFallbackRedirectUrl="/profile" fallbackRedirectUrl="/profile" class={"cursor-pointer w-fit close-menu-button"}>
+                            Sign up
+                        </SignUpButton>
+                    </ul>
+                </SignedOut>
+                <SignedIn>
+                    <ul class="flex flex-col gap-y-4">
+                        <li>
+                            <a href="/" class="cursor-pointer close-menu-button">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/profile" class="cursor-pointer close-menu-button">
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/find-teammates" class="cursor-pointer close-menu-button">
+                                Find Teammates
+                            </a>
+                        </li>
+                        <UserButton showName appearance={{
+                            elements: {
+                                userButtonOuterIdentifier: {
+                                    fontSize: '1rem',
+                                    fontWeight: 'normal',
+                                    paddingLeft: 0,
+                                    color: 'black',
+                                    '.dark &': {
+                                        color: 'white',
+                                    }
+                                },
+                                'userButtonRoot': 'close-menu-button'
+                            }
+                        }} />
+                    </ul>
+                </SignedIn>
+            </div>
+        </dialog>
+    </section>
+
+
+    <section class="hidden md:flex items-center gap-x-3">
         <SignedOut>
             <SignInButton mode="modal" class={"cursor-pointer"}>
                 Log in
@@ -17,7 +79,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro';
         </SignedOut>
     
         <SignedIn>
-            <div class="flex items-center gap-x-3 font-normal">
+            <div class="hidden md:flex items-center gap-x-3 font-normal">
                 <a href="/" class="cursor-pointer">
                     Home
                 </a>
@@ -45,3 +107,15 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro';
         <ThemeToggle />
     </section>
 </header>
+
+<script is:inline>
+    const menuButton = document.querySelector('button');
+    const closeMenuButtons = document.querySelectorAll('.close-menu-button');
+    const dialog = document.querySelector('dialog');
+
+    menuButton.addEventListener('click', () => dialog.showModal());
+
+    closeMenuButtons.forEach(button => {
+        button.addEventListener('click', () => dialog.close());
+    });
+</script>

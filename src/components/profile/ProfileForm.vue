@@ -1,6 +1,6 @@
 <template>
-    <div class="max-w-4xl mx-auto flex flex-col gap-y-6">
-      <h1 class="text-3xl font-bold mb-8">Your Developer Profile</h1>
+    <div class="max-w-4xl mx-auto flex flex-col gap-y-6 p-4">
+      <h1 class="text-3xl font-bold text-center md:text-left">Your Developer Profile</h1>
 
       <BasicInfoForm />
       <TechnologiesForm />
