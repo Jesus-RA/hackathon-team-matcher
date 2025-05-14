@@ -33,7 +33,7 @@
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
         />
-        <div v-if="!userProfileExistsInDB" class="flex items-center justify-between gap-x-2 mt-2">
+        <div v-if="!userProfile.profile_exists_in_db" class="flex items-center justify-between gap-x-2 mt-2">
           <span class="text-xs text-gray-300">Add your username to fetch your data from GitHub</span>
           <button
             class="px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
@@ -76,14 +76,12 @@ import { $technologies } from '@/stores/technologies.js';
 import { $authStore } from '@clerk/astro/client';
 import { useStore } from '@nanostores/vue';
 import GitHub from '@/components/icons/GitHub.vue';
-import { userProfileExists } from '@/lib/user_profile.js';
 import { ref, watch } from 'vue';
 import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 
 const userProfile = useStore($userProfile);
 const authStore = useStore($authStore);
 
-const userProfileExistsInDB = ref(false);
 const loadingGitHubData = ref(false);
 const form = ref({
   name: '',
@@ -95,13 +93,10 @@ const form = ref({
 
 // Populate form when userProfile is loaded
 watch(() => userProfile.value, (newValue) => {
-  form.value = {...newValue};
+  if(newValue){
+    form.value = {...newValue};
+  }
 });
-
-// Check if user profile exists in DB when authStore.user is loaded
-watch(() => authStore.value.user, async (loadedUser) => {
-  userProfileExistsInDB.value = await userProfileExists(loadedUser.id);
-})
 
 const updateUserProfileStore = (key, value) => {
   $userProfile.setKey(key, value);
@@ -110,7 +105,7 @@ const updateUserProfileStore = (key, value) => {
 const fetchUserDataFromGitHub = async () => {
   loadingGitHubData.value = true;
 
-  const response = await fetch(`/api/github?username=${encodeURIComponent(form.github_username.value)}`);
+  const response = await fetch(`/api/github?username=${encodeURIComponent(form.value.github_username)}`);
   if (response.ok) {
     const { profile, technologies } = await response.json();
 

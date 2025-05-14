@@ -3,6 +3,7 @@ import { fetchUserRepos, getUserTechnologiesBasedOnRepos } from '@/lib/github.js
 //import { getUsersWithTechnologies, haveUserTechnologiesBeenFetched } from '@/lib/user_profile.js';
 
 export const $userProfile = map({
+  clerk_user_id: null,
   name: '',
   title: '',
   github_username: '',
@@ -13,6 +14,7 @@ export const $userProfile = map({
   looking_for: [],
   projects: [],
   technologiesFetched: false,
+  profile_exists_in_db: false,
 });
 
 export const setGitHubUsername = (username) => {

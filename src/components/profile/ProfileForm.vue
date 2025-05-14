@@ -105,10 +105,10 @@ const loadDBTechnologies = async () => {
 }
 
 const populateUserProfileStore = () => {
-  $userProfile.setKey('name', profile.name);
-  $userProfile.setKey('github_username', profile.github_username);
-  $userProfile.setKey('portfolio', profile.portfolio);
-  $userProfile.setKey('bio', profile.bio);
+  // Populate user profile store
+  Object.entries(profile).forEach(([key, value]) => {
+    $userProfile.setKey(key, value);
+  });
 
   // Populate user technologies
   if(profile.data_fetched_from_github) {

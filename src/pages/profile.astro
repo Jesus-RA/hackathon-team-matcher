@@ -13,16 +13,19 @@ if(!user) {
     return;
 }
 
+const userProfileExistsInDB = await userProfileExists(user.id);
+
 const profileData = {
+    clerk_user_id: user.id,
     name: user?.fullName ?? '',
     github_username: user.username ?? '',
     portfolio: '',
     bio: '',
     technologies: [],
     data_fetched_from_github: false,
+    profile_exists_in_db: userProfileExistsInDB,
 };
 
-const userProfileExistsInDB = await userProfileExists(user.id);
 if(userProfileExistsInDB){// If user profile exists in DB, get it from DB
     const profile = await getUserWithTechnologies(user.id);
 
