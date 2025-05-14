@@ -81,6 +81,7 @@ const saveProfile = async () => {
     }
 
     toast.success('Profile saved successfully');
+    $userProfile.setKey('profile_exists_in_db', true);
 
     console.log('Profile saved successfully');
   }catch(error){

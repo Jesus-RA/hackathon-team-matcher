@@ -2,13 +2,39 @@ import { supabase } from '@/lib/supabase.js'
 import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.js';
 
 /**
+ * Get data from user_profiles and technologies tables from supabase excluding the given user
+ * @param {string} userId - The user's ID to exclude
+ * @returns { data, error } Promise Supabase query results
+ */
+export const getOtherUsersWithTechnologies = async (userId) => {
+    let { data, error } = await supabase
+        .from('user_profiles')
+        .select('clerk_user_id, name, bio, github_username, user_technologies (technologies (id, name ) )')
+        .neq('clerk_user_id', userId);
+
+    // Map users data
+    data = data && data.map(user => {
+        const mappedUser = {
+            ...user,
+            technologies: user.user_technologies.map(t => t.technologies)
+        }
+
+        delete mappedUser.user_technologies;
+
+        return mappedUser;
+    })
+
+    return { data, error };
+}
+
+/**
  * Get data from user_profiles and technologies tables from supabase
  * @returns { data, error } Promise Supabase query results
  */
 export const getUsersWithTechnologies = async () => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, github_username, user_technologies (technologies (id, name ) )');
+        .select('clerk_user_id, name, bio, github_username, user_technologies (technologies (id, name ) )');
 
     // Map users data
     data = data && data.map(user => {

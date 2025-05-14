@@ -1,0 +1,78 @@
+---
+const { user } = Astro.props;
+
+const { name, bio, job_title, matching_score, technologies} = user;
+---
+
+<!-- <div class="p-6 shadow-sm rounded-lg light-dark-theme"> -->
+<div class="grid grid-rows-[auto_1fr_auto] p-6 shadow-sm rounded-lg light-dark-theme">
+    <div class="flex justify-between items-start mb-4">
+        <div>
+            <h2 class="text-xl font-bold">{ name }</h2>
+            <p class="text-gray-600 dark:text-gray-400">{ job_title }</p>
+        </div>
+        <span class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+            {matching_score.total_percentage}% Match
+        </span>
+    </div>
+    
+    <div class="space-y-4">
+        <p class="text-sm">{ bio }</p>
+        
+        <div>
+            <h3 class="text-sm font-medium mb-2">Technologies</h3>
+            <div class="flex flex-wrap gap-2">
+                {!technologies.length &&
+                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs">No technologies listed</span>
+                }
+                {technologies && technologies.map((tech) => (
+                    <span 
+                        class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs"
+                    >
+                        {tech.name}
+                    </span>
+                ))}
+            </div>
+        </div>
+        
+        <div>
+            <h3 class="text-sm font-medium mb-2">Would like to work on</h3>
+            <div class="flex flex-wrap gap-2">
+                {!user?.interests?.length &&
+                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs">Nothing listed</span>
+                }
+                {user?.interests && user?.interests?.map((interest) => (
+                    <span 
+                        class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs"
+                    >
+                        {interest.name}
+                    </span>
+                ))}
+            </div>
+        </div>
+
+        <div>
+            <h3 class="text-sm font-medium mb-2">Matching details</h3>
+            <ul class="flex flex-wrap gap-2">
+                {Object.values(matching_score).length > 0 && (
+                    matching_score.categories.map(({name, score, max_score}) => (
+                        <li class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs">{name}: {score}/{max_score}</li>
+                    ))
+                )}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="mt-6 flex gap-2">
+        <button
+            class="flex-1 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
+        >
+            Connect
+        </button>
+        <button
+            class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+            Work Together
+        </button>
+    </div>
+</div>
