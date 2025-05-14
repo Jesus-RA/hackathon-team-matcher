@@ -1,6 +1,6 @@
 ---
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/astro/components';
-import ThemeToggle from '@/components/ui/ThemeToggle.vue';
+import ThemeToggle from '@/components/ui/ThemeToggle.astro';
 ---
 
 <header class="flex items-center justify-between px-36 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -42,6 +42,6 @@ import ThemeToggle from '@/components/ui/ThemeToggle.vue';
                 }}></UserButton>
             </div>
         </SignedIn>
-        <ThemeToggle client:load />
+        <ThemeToggle />
     </section>
 </header>
