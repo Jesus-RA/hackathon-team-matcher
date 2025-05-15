@@ -1,22 +1,24 @@
 <template>
-  <section class="light-dark-theme rounded-lg p-6 shadow-sm">
-    <h2 class="text-xl font-bold mb-4">Technologies</h2>
-    <div class="space-y-4">
-      <div class="flex gap-2">
-        <input v-model="technology" list="technologies" type="text" placeholder="Technology name" class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900">
-        <datalist id="technologies">
-          <option v-for="(tech, index) in $technologies.value" :key="index" :value="tech.name">{{ tech.name }}</option>
-        </datalist>
-        <button 
-          @click="localAddTechnology(technology)" 
-          class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          Add Technology
-        </button>
-      </div>
+  <article class="flex flex-col gap-y-4 light-dark-theme rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-bold">Technologies</h2>
+    <section class="flex gap-2">
+      <input v-model="technology" @keyup.enter="addTech" list="technologies" type="text" placeholder="Add a techology" class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none">
+      <datalist id="technologies">
+        <option v-for="(tech, index) in unselectedTechnologies" :key="index" :value="tech.name">{{ tech.name }}</option>
+      </datalist>
+      <button 
+        @click="addTech" 
+        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
+        :class="{'cursor-not-allowed opacity-50': !validTechnologySelected}"
+        :disabled="!validTechnologySelected"
+      >
+        Add
+      </button>
+    </section>
 
+    <section class="flex flex-wrap gap-4">
       <div v-for="(tech, index) in userProfile.technologies" :key="index" class="flex items-center gap-2">
-        <span class="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 flex items-center gap-x-2">
+        <span class="flex items-center gap-x-2 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
           {{ tech.name }}
           <button 
             @click="removeTechnology(tech.id)" 
@@ -45,24 +47,38 @@
           </svg>
         </button> -->
       </div>
-    </div>
-  </section>
+    </section>
+  </article>
 </template>
 
 <script setup>
 import { $userProfile, addTechnology, removeTechnology } from '@/stores/profile.js';
-import { useStore } from '@nanostores/vue';
-import { ref } from 'vue';
 import { $technologies } from '@/stores/technologies.js';
+import { useStore } from '@nanostores/vue';
+import { ref, computed } from 'vue';
 
 const userProfile = useStore($userProfile);
 const technology = ref('');
 const technologies = useStore($technologies);
 
-const localAddTechnology = (technologyName) => {
-  //addTechnology({ name: technology.value, level: 'beginner' });
-  addTechnology(technologyName);
+const selectedTechnology = computed(() => {
+  return technologies.value.find((tech) => tech.name === technology.value);
+})
+
+const validTechnologySelected = computed(() => {
+  return selectedTechnology.value !== undefined;
+})
+
+const unselectedTechnologies = computed(() => {
+  const userTechnologies = new Set(userProfile.value.technologies.map((tech) => tech.id));
+  return technologies.value.filter((tech) => !userTechnologies.has(tech.id));
+})
+
+const addTech = () => {
+  if(!validTechnologySelected.value) return;
+
+  const { id, name } = selectedTechnology.value;
+  addTechnology({id, name });
   technology.value = '';
 };
-
 </script>

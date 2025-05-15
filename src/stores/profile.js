@@ -69,8 +69,8 @@ export const saveProfile = async () => {
 }
 
 export const addTechnology = (technology) => {
-  if (!$userProfile.value.technologies.includes(technology)) {
-    $userProfile.value.technologies.push(technology);
+  if (!$userProfile.value.technologies.find(t => t.id === technology.id)) {
+    $userProfile.setKey('technologies', [...$userProfile.value.technologies, technology]);
   }
 }
 

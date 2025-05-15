@@ -102,7 +102,7 @@ const fetchDBTechnologies = async () => {
 
 const loadDBTechnologies = async () => {
   const technologies = await fetchDBTechnologies();
-  $technologies.value = technologies;
+  $technologies.set(technologies);
 }
 
 const populateUserProfileStore = () => {
