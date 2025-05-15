@@ -1,15 +1,17 @@
 ---
 import SunIcon from '@/components/icons/SunIcon.astro';
 import MoonIcon from '@/components/icons/MoonIcon.astro';
+
+const { classList } = Astro.props;
 ---
-<div id="theme-toggler">
+<div id="theme-toggler" class={classList}>
     <MoonIcon />
     <SunIcon />
 </div>
 
 <script is:inline>
     // Store initial theme based on system preference
-    const currentThme = (() => {
+    const currentTheme = (() => {
         const storedTheme = localStorage.getItem('theme');
         if(['dark', 'light'].includes(storedTheme)){
             return storedTheme;
@@ -18,7 +20,7 @@ import MoonIcon from '@/components/icons/MoonIcon.astro';
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     })();
 
-    currentThme === 'dark'
+    currentTheme === 'dark'
         ? document.documentElement.classList.add('dark')
         : document.documentElement.classList.remove('dark');
     toggleIcons();
