@@ -100,6 +100,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
             }
         }
 
+        if(body.looking_for.length){
+            const { error } = await supabase
+                .from('user_looking_for_positions')
+                .upsert(body.looking_for.map((position_id) => ({
+                    user_id: user.id,
+                    position_id: position_id
+                })), { ignoreDuplicates: false });
+
+            if(error){
+                throw error;
+            }
+        }
+
         // TODO: Store these
         // interests: body.interests,
         // looking_for: body.looking_for,
