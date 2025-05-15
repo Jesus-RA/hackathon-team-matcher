@@ -11,7 +11,7 @@
       <div class="flex justify-end">
         <button 
           @click="saveProfile" 
-          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
+          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-medium hover:opacity-90 transition-opacity"
           :class="{ 'opacity-50 cursor-not-allowed': loading }"
           :disabled="loading"
         >
@@ -40,6 +40,9 @@ import { $technologies } from '@/stores/technologies.js';
 import { supabase } from '@/lib/supabase';
 import { getUserTechnologies } from '@/lib/user_profile.js';
 import { $authStore } from '@clerk/astro/client';
+import { $positions } from '@/stores/positions.js';
+
+import { fetchPositions } from '@/lib/positions.js';
 
 const authStore = useStore($authStore);
 const userProfile = useStore($userProfile);
@@ -53,8 +56,16 @@ const { profile } = defineProps({
 });
 
 onBeforeMount(async () => {
-  await loadDBTechnologies();
+  // await loadDBTechnologies();
+  // await loadDBPositions();
+  await Promise.all([
+    loadDBTechnologies(),
+    loadDBPositions()
+  ]);
+  
   populateUserProfileStore();
+  console.log({profile: profile})
+  
 });
 
 const saveProfile = async () => {
@@ -62,6 +73,9 @@ const saveProfile = async () => {
     loading.value = true;
     const body = {...userProfile.value};
     body.technologies = body.technologies.map((tech) => tech.id);
+    body.interests = body.interests.map((interest) => interest.id);
+    //body.looking_for = body.looking_for.map((item) => item.id);
+    //body.projects = body.projects.map((project) => project.id);
 
     if($userProfile.value.data_fetched_from_github){
       body.data_fetched_from_github = true;
@@ -103,6 +117,12 @@ const fetchDBTechnologies = async () => {
 const loadDBTechnologies = async () => {
   const technologies = await fetchDBTechnologies();
   $technologies.set(technologies);
+}
+
+const loadDBPositions = async () => {
+  const positions = await fetchPositions();
+  console.log('Positions:', positions);
+  $positions.set(positions);
 }
 
 const populateUserProfileStore = () => {

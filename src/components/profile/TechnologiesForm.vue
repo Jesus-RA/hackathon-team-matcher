@@ -1,5 +1,5 @@
 <template>
-  <article class="flex flex-col gap-y-4 light-dark-theme rounded-lg p-6 shadow-sm">
+  <article class="flex flex-col gap-y-6 light-dark-theme rounded-lg p-6 shadow-sm">
     <h2 class="text-xl font-bold">Technologies</h2>
     <section class="flex gap-2">
       <input v-model="technology" @keyup.enter="addTech" list="technologies" type="text" placeholder="Add a techology" class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none">
@@ -8,7 +8,7 @@
       </datalist>
       <button 
         @click="addTech" 
-        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity"
+        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium hover:opacity-90 transition-opacity"
         :class="{'cursor-not-allowed opacity-50': !validTechnologySelected}"
         :disabled="!validTechnologySelected"
       >
@@ -22,7 +22,7 @@
           {{ tech.name }}
           <button 
             @click="removeTechnology(tech.id)" 
-            class="text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+            class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2">
               <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>

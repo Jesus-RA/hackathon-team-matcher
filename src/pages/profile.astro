@@ -28,6 +28,7 @@ const profileData = {
 
 if(userProfileExistsInDB){// If user profile exists in DB, get it from DB
     const profile = await getUserWithTechnologies(user.id);
+    console.log({profile})
 
     Object.entries(profile).forEach(([key, value]) => {
         profileData[key] = value;

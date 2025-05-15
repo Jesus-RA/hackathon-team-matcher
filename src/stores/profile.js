@@ -83,13 +83,14 @@ export const removeTechnology = (technologyId) => {
 }
 
 export const addInterest = (interest) => {
-  if (!$userProfile.value.interests.includes(interest)) {
-    $userProfile.value.interests.push(interest);
+  if (!$userProfile.value.interests.find(item => item.name === interest.name)) {
+    $userProfile.setKey('interests', [...$userProfile.value.interests, interest]);
   }
 }
 
-export const removeInterest = (index) => {
-  $userProfile.value.interests.splice(index, 1);
+export const removeInterest = (interestId) => {
+  const filteredInterests = $userProfile.value.interests.filter(interest => interest.id !== interestId);
+  $userProfile.setKey('interests', filteredInterests)
 }
 
 export const addLookingFor = (item) => {
