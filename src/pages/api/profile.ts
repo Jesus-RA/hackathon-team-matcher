@@ -74,39 +74,57 @@ export const POST: APIRoute = async ({ request, locals }) => {
             throw error;
         }
 
-        if(body.technologies.length){
-            const { error } = await supabase
-                .from('user_technologies')
-                .upsert(body.technologies.map((technology_id) => ({
-                    user_id: user.id,
-                    technology_id: technology_id
-                })), { ignoreDuplicates: false });
+        // Delete all existing records first
+        await Promise.all([
+            supabase.from('user_technologies').delete().eq('user_id', user.id),
+            supabase.from('user_interested_positions').delete().eq('user_id', user.id),
+            supabase.from('user_looking_for_positions').delete().eq('user_id', user.id)
+        ]);
 
-            if(error){
-                throw error;
-            }
+        // Insert new records
+        const operations = [];
+
+        if(body.technologies.length){
+            operations.push(
+                supabase
+                    .from('user_technologies')
+                    .insert(body.technologies.map((technology_id) => ({
+                        user_id: user.id,
+                        technology_id: technology_id
+                    })))
+            );
         }
 
         if(body.interests.length){
-            const { error } = await supabase
-                .from('user_interested_positions')
-                .upsert(body.interests.map((interest_id) => ({
-                    user_id: user.id,
-                    position_id: interest_id
-                })), { ignoreDuplicates: false });
-
-            if(error){
-                throw error;
-            }
+            operations.push(
+                supabase
+                    .from('user_interested_positions')
+                    .insert(body.interests.map((interest_id) => ({
+                        user_id: user.id,
+                        position_id: interest_id
+                    })))
+            );
         }
 
-        // TODO: Store these
-        // interests: body.interests,
-        // looking_for: body.looking_for,
-        // projects: body.projects
+        if(body.looking_for.length){
+            operations.push(
+                supabase
+                    .from('user_looking_for_positions')
+                    .insert(body.looking_for.map((position) => ({
+                        user_id: user.id,
+                        position_id: position.position_id,
+                        required_people: position.required_people
+                    })))
+            );
+        }
 
-        if (error) {
-            throw error;
+        // Execute all operations in parallel
+        const results = await Promise.all(operations);
+
+        // Check for any errors
+        const errors = results.filter(result => result.error);
+        if(errors.length > 0) {
+            throw errors[0].error;
         }
 
         return new Response(JSON.stringify({ message: 'Profile saved successfully' }), {

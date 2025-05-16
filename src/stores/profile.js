@@ -93,14 +93,19 @@ export const removeInterest = (interestId) => {
   $userProfile.setKey('interests', filteredInterests)
 }
 
-export const addLookingFor = (item) => {
-  if (!$userProfile.value.looking_for.includes(item)) {
-    $userProfile.value.looking_for.push(item);
+export const addLookingFor = (position) => {
+  if (!$userProfile.value.looking_for.find(p => p.id === position.id)) {
+    $userProfile.setKey('looking_for', [...$userProfile.value.looking_for, {
+      id: position.id,
+      name: position.name,
+      required_people: position.required_people || 1
+    }]);
   }
 }
 
-export const removeLookingFor = (index) => {
-  $userProfile.value.looking_for.splice(index, 1);
+export const removeLookingFor = (positionId) => {
+  const filteredPositions = $userProfile.value.looking_for.filter(position => position.id !== positionId);
+  $userProfile.setKey('looking_for', filteredPositions);
 }
 
 export const addProject = (project) => {
