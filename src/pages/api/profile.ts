@@ -110,9 +110,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
             operations.push(
                 supabase
                     .from('user_looking_for_positions')
-                    .insert(body.looking_for.map((position_id) => ({
+                    .insert(body.looking_for.map((position) => ({
                         user_id: user.id,
-                        position_id: position_id
+                        position_id: position.position_id,
+                        required_people: position.required_people
                     })))
             );
         }

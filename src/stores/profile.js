@@ -95,7 +95,11 @@ export const removeInterest = (interestId) => {
 
 export const addLookingFor = (position) => {
   if (!$userProfile.value.looking_for.find(p => p.id === position.id)) {
-    $userProfile.setKey('looking_for', [...$userProfile.value.looking_for, position]);
+    $userProfile.setKey('looking_for', [...$userProfile.value.looking_for, {
+      id: position.id,
+      name: position.name,
+      required_people: position.required_people || 1
+    }]);
   }
 }
 

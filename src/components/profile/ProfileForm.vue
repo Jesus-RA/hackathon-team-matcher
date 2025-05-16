@@ -74,7 +74,10 @@ const saveProfile = async () => {
     const body = {...userProfile.value};
     body.technologies = body.technologies.map((tech) => tech.id);
     body.interests = body.interests.map((interest) => interest.id);
-    body.looking_for = body.looking_for.map((item) => item.id);
+    body.looking_for = body.looking_for.map((position) => ({
+      position_id: position.id,
+      required_people: position.required_people
+    }));
     //body.projects = body.projects.map((project) => project.id);
 
     if($userProfile.value.data_fetched_from_github){
