@@ -2,24 +2,31 @@ import { supabase } from '@/lib/supabase.js'
 import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.js';
 
 /**
- * Get data from user_profiles and technologies tables from supabase excluding the given user
+ * Get data from user_profiles, technologies, positions tables from supabase excluding the given user
  * @param {string} userId - The user's ID to exclude
  * @returns { data, error } Promise Supabase query results
  */
-export const getOtherUsersWithTechnologies = async (userId) => {
+export const getOtherUsersProfileData = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, name, bio, github_username, user_technologies (technologies (id, name ) )')
+        .select('clerk_user_id, name, bio, github_username, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
         .neq('clerk_user_id', userId);
 
     // Map users data
     data = data && data.map(user => {
         const mappedUser = {
             ...user,
-            technologies: user.user_technologies.map(t => t.technologies)
+            technologies: user.user_technologies.map(t => t.technologies),
+            interests: user.user_interested_positions.map(p => p.positions),
+            looking_for: user.user_looking_for_positions.map(p => ({
+                ...p.positions,
+                required_people: p.required_people
+            }))
         }
 
         delete mappedUser.user_technologies;
+        delete mappedUser.user_interested_positions;
+        delete mappedUser.user_looking_for_positions;
 
         return mappedUser;
     })

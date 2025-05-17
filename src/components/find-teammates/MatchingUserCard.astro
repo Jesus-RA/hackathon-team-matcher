@@ -2,9 +2,14 @@
 const { user } = Astro.props;
 
 const { name, bio, job_title, matching_score, technologies} = user;
+
+const mapRequiredPeople = (required_people: number) => {
+    const requiredPeople = required_people === 5 ? '5+' : required_people;
+
+    return required_people > 1 ? `${requiredPeople} people` : '1 person';
+}
 ---
 
-<!-- <div class="p-6 shadow-sm rounded-lg light-dark-theme"> -->
 <div class="grid grid-rows-[auto_1fr_auto] p-6 shadow-sm rounded-lg light-dark-theme">
     <div class="flex justify-between items-start mb-4">
         <div>
@@ -19,7 +24,7 @@ const { name, bio, job_title, matching_score, technologies} = user;
     <div class="space-y-4">
         <p class="text-sm">{ bio }</p>
         
-        <div>
+        <section>
             <h3 class="text-sm font-medium mb-2">Technologies</h3>
             <div class="flex flex-wrap gap-2">
                 {!technologies.length &&
@@ -33,9 +38,9 @@ const { name, bio, job_title, matching_score, technologies} = user;
                     </span>
                 ))}
             </div>
-        </div>
+        </section>
         
-        <div>
+        <section>
             <h3 class="text-sm font-medium mb-2">Would like to work on</h3>
             <div class="flex flex-wrap gap-2">
                 {!user?.interests?.length &&
@@ -49,9 +54,25 @@ const { name, bio, job_title, matching_score, technologies} = user;
                     </span>
                 ))}
             </div>
-        </div>
+        </section>
 
-        <div>
+        <section>
+            <h3 class="text-sm font-medium mb-2">Looking for</h3>
+            <div class="flex flex-wrap gap-2">
+                {!user?.looking_for?.length &&
+                    <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs">Nothing listed</span>
+                }
+                {user?.looking_for && user?.looking_for?.map((looking_for) => (
+                    <span 
+                        class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs"
+                    >
+                        {looking_for.name} ({mapRequiredPeople(looking_for.required_people)})
+                    </span>
+                ))}
+            </div>
+        </section>
+
+        <section>
             <h3 class="text-sm font-medium mb-2">Matching details</h3>
             <ul class="flex flex-wrap gap-2">
                 {Object.values(matching_score).length > 0 && (
@@ -60,7 +81,7 @@ const { name, bio, job_title, matching_score, technologies} = user;
                     ))
                 )}
             </ul>
-        </div>
+        </section>
     </div>
     
     <div class="mt-6 flex gap-2">

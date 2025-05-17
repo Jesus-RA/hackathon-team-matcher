@@ -2,11 +2,11 @@
 import Layout from '@/layouts/Layout.astro';
 import MatchingUserCard from '@/components/find-teammates/MatchingUserCard.astro';
 
-import { getOtherUsersWithTechnologies, getUserProfileData } from '@/lib/user_profile.js';
+import { getOtherUsersProfileData, getUserProfileData } from '@/lib/user_profile.js';
 import { calculateMatchingScore } from '@/lib/users_matching';
 
 const user = await Astro.locals.currentUser();
-let { data, error } = await getOtherUsersWithTechnologies(user?.id);
+let { data, error } = await getOtherUsersProfileData(user?.id);
 const currentUser = await getUserProfileData(user?.id);
 
 if(error) {
