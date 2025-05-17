@@ -88,6 +88,15 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'apply']);
 
+// Remove overflow from body when dialog is open
+watch(() => props.isOpen, (dialogOpened) => {
+    if(dialogOpened) {
+        document.body.classList.add('overflow-hidden');
+    } else {
+        document.body.classList.remove('overflow-hidden');
+    }
+})
+
 const handleClose = () => {
   emit('close');
 };
