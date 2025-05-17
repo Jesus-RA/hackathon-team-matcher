@@ -8,8 +8,8 @@
       </datalist>
       <button 
         @click="addTech" 
-        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium hover:opacity-90 transition-opacity"
-        :class="{'cursor-not-allowed opacity-50': !validTechnologySelected}"
+        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium transition-opacity"
+        :class="{'cursor-not-allowed opacity-50': !validTechnologySelected, 'hover:opacity-90': validTechnologySelected}"
         :disabled="!validTechnologySelected"
       >
         Add
@@ -22,7 +22,7 @@
           {{ tech.name }}
           <button 
             @click="removeTechnology(tech.id)" 
-            class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+            class="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2">
               <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>

@@ -2,8 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import ProfileForm from '@/components/profile/ProfileForm.vue';
 
-import { calculateMatchingScore } from '@/lib/users_matching.js';
-import { userProfileExists, getUserWithTechnologies } from '@/lib/user_profile.js';
+import { userProfileExists, getUserProfileData } from '@/lib/user_profile.js';
 import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.js';
 
 const user = await Astro.locals.currentUser();
@@ -13,8 +12,6 @@ if(!user) {
     return;
 }
 
-const userProfileExistsInDB = await userProfileExists(user.id);
-
 const profileData = {
     clerk_user_id: user.id,
     name: user?.fullName ?? '',
@@ -23,18 +20,10 @@ const profileData = {
     bio: '',
     technologies: [],
     data_fetched_from_github: false,
-    profile_exists_in_db: userProfileExistsInDB,
 };
 
-if(userProfileExistsInDB){// If user profile exists in DB, get it from DB
-    const profile = await getUserWithTechnologies(user.id);
-    console.log({profile})
-
-    Object.entries(profile).forEach(([key, value]) => {
-        profileData[key] = value;
-    });
-
-} else if(profileData.github_username){ // If user profile does not exist in DB and user logged in through GitHub, fetch it from github (logged in for the first time)
+const userProfileExistsInDB = await userProfileExists(user.id);
+if(!userProfileExistsInDB && profileData.github_username){ // If user profile does not exist in DB and user logged in through GitHub, fetch it from github (logged in for the first time)
     profileData.data_fetched_from_github = true;
 
     const [profile, technologies] = await Promise.all([
@@ -45,52 +34,17 @@ if(userProfileExistsInDB){// If user profile exists in DB, get it from DB
     profileData.portfolio = profile?.blog;
     profileData.bio = profile?.bio;
     profileData.technologies = technologies;
+} else {
+    // If user profile exists in DB, get it from DB
+    const profile = await getUserProfileData(user.id);
+
+    Object.entries(profile).forEach(([key, value]) => {
+        profileData[key] = value;
+    });
 }
 
-/*const { data, error } = await getUsersWithTechnologies()
-const usersMatchingScores = calculateMatchingScore(data[0], data[1])
-console.log(usersMatchingScores)
-const userRepos = await fetchUserRepos(username)
-console.log({username, userRepos})
-*/
 ---
 
 <Layout title="Profile">
-    
-    <!-- <main class="container mx-auto px-4 py-8">
-        {error && <p class="text-red-500">Error loading users: {error.message}</p>}
-        
-        {data && (
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {data.map((profile) => (
-                    <div class="border rounded-lg p-4 shadow">
-                        <h2 class="text-xl font-bold">{profile.github_username}</h2>
-                        <div class="mt-2">
-                            <h3 class="font-semibold">Technologies:</h3>
-                            <div class="flex flex-wrap gap-2 mt-1">
-                                {profile.technologies.map((tech) => (
-                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
-                                        {tech.name}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <h3 class="font-semibold">Match Score:</h3>
-                            <section class="mt-1">
-                                {usersMatchingScores && 
-                                    Object.entries(usersMatchingScores).map(([criteria, score]) => {
-                                        <p>
-                                            {criteria}: <span>{score}</span>
-                                        </p>
-                                    })
-                                }
-                            </section>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        )}
-    </main> -->
     <ProfileForm client:load profile={profileData}/>
 </Layout>

@@ -58,10 +58,10 @@ export const getUsersWithTechnologies = async () => {
  * @param {string} userId - The user's ID
  * @returns { data, error } Promise Supabase query results
  */
-export const getUserWithTechnologies = async (userId) => {
+export const getUserProfileData = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, name, github_username, portfolio, bio, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name))')
+        .select('clerk_user_id, name, github_username, portfolio, bio, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
         .eq('clerk_user_id', userId)
         .single();
 
@@ -74,7 +74,10 @@ export const getUserWithTechnologies = async (userId) => {
         ...data,
         technologies: data.user_technologies.map(t => t.technologies),
         interests: data.user_interested_positions.map(p => p.positions),
-        looking_for: data.user_looking_for_positions.map(p => p.positions)
+        looking_for: data.user_looking_for_positions.map(p => ({
+            ...p.positions,
+            required_people: p.required_people
+        }))
     }
 
     delete data.user_technologies;
@@ -144,7 +147,7 @@ export const getUserProfile = async (user) => {
 
     if(userDataAlreadyFetchedFromGithub){// If user data has been fetched from github before, get it from DB
         const profile = await getUserWithTechnologies(user.id);
-        console.log({profile})
+
         profileData.technologies = profile?.technologies;
         profileData.github_username = profile?.github_username;
         profileData.portfolio = profile?.portfolio;

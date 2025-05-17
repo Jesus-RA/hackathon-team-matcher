@@ -6,13 +6,12 @@
       <TechnologiesForm />
       <InterestsForm />
       <LookingForForm />
-      <ProjectsForm />
 
       <div class="flex justify-end">
         <button 
           @click="saveProfile" 
-          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-medium hover:opacity-90 transition-opacity"
-          :class="{ 'opacity-50 cursor-not-allowed': loading }"
+          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-medium transition-opacity"
+          :class="{ 'opacity-50 cursor-not-allowed': loading, 'hover:opacity-90 cursor-pointer': !loading }"
           :disabled="loading"
         >
           Save Profile
@@ -28,7 +27,6 @@ import BasicInfoForm from './BasicInfoForm.vue';
 import TechnologiesForm from './TechnologiesForm.vue';
 import InterestsForm from './InterestsForm.vue';
 import LookingForForm from './LookingForForm.vue';
-import ProjectsForm from './ProjectsForm.vue';
 import { Toaster, toast } from 'vue-sonner';
 import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 
@@ -56,16 +54,12 @@ const { profile } = defineProps({
 });
 
 onBeforeMount(async () => {
-  // await loadDBTechnologies();
-  // await loadDBPositions();
   await Promise.all([
     loadDBTechnologies(),
     loadDBPositions()
   ]);
   
-  populateUserProfileStore();
-  console.log({profile: profile})
-  
+  populateUserProfileStore();  
 });
 
 const saveProfile = async () => {
@@ -78,12 +72,10 @@ const saveProfile = async () => {
       position_id: position.id,
       required_people: position.required_people
     }));
-    //body.projects = body.projects.map((project) => project.id);
 
     if($userProfile.value.data_fetched_from_github){
       body.data_fetched_from_github = true;
     }
-    console.log('Saving profile:', body);
 
     const response = await fetch('/api/profile', {
       method: 'POST',
@@ -98,9 +90,6 @@ const saveProfile = async () => {
     }
 
     toast.success('Profile saved successfully');
-    $userProfile.setKey('profile_exists_in_db', true);
-
-    console.log('Profile saved successfully');
   }catch(error){
     console.error('Error saving profile:', error);
   }finally{
@@ -124,7 +113,6 @@ const loadDBTechnologies = async () => {
 
 const loadDBPositions = async () => {
   const positions = await fetchPositions();
-  console.log('Positions:', positions);
   $positions.set(positions);
 }
 
