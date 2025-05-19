@@ -1,5 +1,5 @@
 <template>
-  <article class="flex flex-col gap-y-6 light-dark-theme rounded-lg p-6 shadow-sm">
+  <article class="flex flex-col gap-y-6 light-dark-theme rounded-lg p-6 shadow-lg outline outline-gray-100 dark:outline-none">
     <h2 class="text-xl font-bold">Technologies</h2>
     <section class="flex flex-wrap gap-3">
       <input v-model="technology" @keyup.enter="addTech" list="technologies" type="text" placeholder="Add a techology" class="w-full md:w-auto grow-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none">

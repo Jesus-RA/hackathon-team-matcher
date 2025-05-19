@@ -1,21 +1,21 @@
 <template>
     <div>
         <section class="flex flex-col gap-4 items-end justify-between h-full">
-            <StatusBadge :status="request.status" />
-            <div v-show="request.status === 'pending'" class="flex gap-2">
+            <StatusBadge :status="request.status" class="hidden md:flex" />
+            <div v-show="request.status === 'pending'" class="flex w-full gap-2">
                 <button
                     v-show="authStore.userId === request.requester_user_id"
                     @click="cancelConnectionRequest"
-                    class="px-3 py-1 bg-red-600 text-sm text-white rounded-md transition-colors"
+                    class="px-3 py-1 bg-gray-600 text-sm text-white rounded-md transition-colors grow-1 md:grow-0"
                     :class="{ 'opacity-50 cursor-not-allowed': loading, 'hover:opacity-90 cursor-pointer': !loading }"
                     :disabled="loading"
                 >
                     Cancel
                 </button>
-                <div v-show="authStore.userId === request.recipient_user_id" class="flex gap-2">
+                <div v-show="authStore.userId === request.recipient_user_id" class="flex w-full gap-2">
                     <button
                         @click="acceptConnection"
-                        class="px-3 py-1 bg-green-600 text-sm text-white rounded-md transition-colors"
+                        class="px-3 py-1 bg-green-600 text-sm text-white rounded-md transition-colors grow-1 md:grow-0  "
                         :class="{ 'opacity-50 cursor-not-allowed': loading, 'hover:opacity-90 cursor-pointer': !loading }"
                         :disabled="loading"
                     >
@@ -23,7 +23,7 @@
                     </button>
                     <button
                         @click="rejectConnection"
-                        class="px-3 py-1 bg-red-600 text-sm text-white rounded-md transition-colors"
+                        class="px-3 py-1 bg-red-600 text-sm text-white rounded-md transition-colors grow-1 md:grow-0"
                         :class="{ 'opacity-50 cursor-not-allowed': loading, 'hover:opacity-90 cursor-pointer': !loading }"
                         :disabled="loading"
                     >

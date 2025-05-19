@@ -1,5 +1,5 @@
 <template>
-  <article class="flex flex-col gap-y-6 light-dark-theme rounded-lg p-6 shadow-sm">
+  <article class="flex flex-col gap-y-6 light-dark-theme rounded-lg p-6 shadow-lg outline outline-gray-100 dark:outline-none">
     <h2 class="text-xl font-bold">
       Interests
       <span class="text-sm text-gray-500">(what you would like to work on)</span>
