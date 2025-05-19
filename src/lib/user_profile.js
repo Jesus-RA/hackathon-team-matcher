@@ -9,7 +9,7 @@ import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.
 export const getOtherUsersProfileData = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, name, bio, github_username, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
+        .select('clerk_user_id, name, bio, job_title, github_username, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
         .neq('clerk_user_id', userId);
 
     // Map users data
