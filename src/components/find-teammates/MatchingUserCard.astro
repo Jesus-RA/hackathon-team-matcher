@@ -10,18 +10,18 @@ const mapRequiredPeople = (required_people: number) => {
 }
 ---
 
-<div class="grid grid-rows-[auto_1fr_auto] p-6 shadow-sm rounded-lg light-dark-theme">
-    <div class="flex justify-between items-start mb-4">
+<div class="grid grid-rows-[auto_1fr_auto] gap-y-6 p-6 shadow-sm rounded-lg light-dark-theme">
+    <div class="flex justify-between items-start">
         <div>
             <h2 class="text-xl font-bold">{ name }</h2>
             <p class="text-gray-600 dark:text-gray-400">{ job_title }</p>
         </div>
         <span class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-            {matching_score.total_percentage}% Match
+            {matching_score.total_percentage.toFixed(0)}% Match
         </span>
     </div>
     
-    <div class="space-y-4">
+    <div class="flex flex-col gap-y-6">
         <p class="text-sm">{ bio }</p>
         
         <section>
@@ -72,7 +72,7 @@ const mapRequiredPeople = (required_people: number) => {
             </div>
         </section>
 
-        <section>
+        <section class="mt-auto">
             <h3 class="text-sm font-medium mb-2">Matching details</h3>
             <ul class="flex flex-wrap gap-2">
                 {Object.values(matching_score).length > 0 && (
