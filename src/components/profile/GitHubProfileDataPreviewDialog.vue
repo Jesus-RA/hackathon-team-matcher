@@ -4,53 +4,59 @@
     :open="isOpen"
     @close="handleClose"
   >
+    <!-- Modal background -->
     <div class="fixed inset-0 flex items-center justify-center p-4 bg-gray-500/50">
-      <div class="flex flex-col gap-y-10 bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full p-6">
+
+      <!-- Modal content -->
+      <article class="grid grid-rows-[auto_1fr_auto] gap-y-6 bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full p-6 max-h-dvh h-full md:h-auto">
+        <!-- Header -->
         <h3 class="text-2xl font-bold text-center">GitHub Profile Data Preview</h3>
-        <!-- Basic Info Preview -->
-        <section class="flex flex-col gap-y-2">
-          <h4 class="text-lg font-semibold dark:text-gray-300">Basic Information:</h4>
-          <div class="grid grid-cols-2 gap-y-4 gap-x-2">
-              <div class="">
-                <p class="text-normal text-gray-500 dark:text-gray-400">Name:</p>
-                <p class="text-lg font-medium">{{ previewData.name }}</p>
-              </div>
-              <div class="">
-                <p class="text-normal text-gray-500 dark:text-gray-400">Portfolio:</p>
-                <p class="text-lg font-medium ">
-                    {{ previewData.blog }}
-                </p>
-              </div>
-              <div class="col-span-2">
-                <p class="text-normal text-gray-500 dark:text-gray-400">Bio:</p>
-                <p class="text-lg font-medium">{{ previewData.bio }}</p>
-              </div>
-          </div>
-        </section>
 
-        <!-- Technologies Preview -->
-        <section class="flex flex-col gap-y-2">
-          <h4 class="text-lg font-semibold dark:text-gray-300">Technologies:</h4>
-          <div class="flex flex-wrap gap-2">
-            <span 
-              v-for="tech in previewData.technologies" 
-              :key="tech"
-              class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm"
-            >
-              {{ tech }}
-            </span>
-          </div>
-        </section>
-
-        <!-- Warning -->
-        <section>
-          <p class="flex py-3 px-4 bg-orange-100/70 dark:bg-orange-400/10 text-orange-400 rounded-lg text-xs text-center">
+        <!-- Main content -->
+        <main class="flex flex-col gap-y-6 overflow-y-auto">
+          <!-- Basic Info Preview -->
+          <section class="flex flex-col gap-y-2">
+            <h4 class="text-lg font-semibold dark:text-gray-300">Basic Information:</h4>
+            <div class="grid grid-cols-2 gap-y-4 gap-x-2">
+                <div class="col-span-2 md:col-span-1">
+                  <p class="text-normal text-gray-500 dark:text-gray-400">Name:</p>
+                  <p class="text-lg font-medium">{{ previewData.name }}</p>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                  <p class="text-normal text-gray-500 dark:text-gray-400">Portfolio:</p>
+                  <p class="text-lg font-medium ">
+                      {{ previewData.blog }}
+                  </p>
+                </div>
+                <div class="col-span-2">
+                  <p class="text-normal text-gray-500 dark:text-gray-400">Bio:</p>
+                  <p class="text-lg font-medium">{{ previewData.bio }}</p>
+                </div>
+            </div>
+          </section>
+  
+          <!-- Technologies Preview -->
+          <section class="flex flex-col gap-y-2">
+            <h4 class="text-lg font-semibold dark:text-gray-300">Technologies:</h4>
+            <div class="flex flex-wrap gap-2">
+              <span 
+                v-for="tech in previewData.technologies" 
+                :key="tech"
+                class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm"
+              >
+                {{ tech }}
+              </span>
+            </div>
+          </section>
+  
+          <!-- Warning -->
+          <p class="flex py-3 px-4 mt-auto bg-orange-100/70 dark:bg-orange-400/10 text-orange-400 rounded-lg text-xs text-center">
             <span class="text-xl">⚠️</span>
             <span class="text-sm">
                 Basic information will override your current data. Technologies will be added to your current list.
             </span>
           </p>
-        </section>
+        </main>
 
         <!-- Action Buttons -->
         <section class="flex justify-end gap-2">
@@ -67,7 +73,7 @@
             Apply Changes
           </button>
         </section>
-      </div>
+      </article>
     </div>
   </dialog>
 </template>
