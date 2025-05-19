@@ -1,6 +1,7 @@
 <template>
     <div class="max-w-4xl mx-auto flex flex-col gap-y-6 p-4">
       <h1 class="text-3xl font-bold text-center md:text-left">Your Developer Profile</h1>
+      <SpinnerLoader v-show="loadingPageData" class="size-10 border-6 border-r-6 mx-auto" />
 
       <BasicInfoForm />
       <TechnologiesForm />
@@ -45,6 +46,7 @@ import { fetchPositions } from '@/lib/positions.js';
 const authStore = useStore($authStore);
 const userProfile = useStore($userProfile);
 const loading = ref(false);
+const loadingPageData = ref(true);
 
 const { profile } = defineProps({
   profile: {
@@ -54,10 +56,12 @@ const { profile } = defineProps({
 });
 
 onBeforeMount(async () => {
+  loadingPageData.value = true;
   await Promise.all([
     loadDBTechnologies(),
     loadDBPositions()
   ]);
+  loadingPageData.value = false;
   
   populateUserProfileStore();  
 });
