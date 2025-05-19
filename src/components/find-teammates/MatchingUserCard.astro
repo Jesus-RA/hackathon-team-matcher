@@ -1,7 +1,9 @@
 ---
+import StatusBadge from '@/components/connection-requests/StatusBadge.astro';
+
 const { user } = Astro.props;
 
-const { name, bio, job_title, matching_score, technologies} = user;
+const { name, bio, job_title, matching_score, technologies, existing_connection } = user;
 
 const mapRequiredPeople = (required_people: number) => {
     const requiredPeople = required_people === 5 ? '5+' : required_people;
@@ -85,15 +87,18 @@ const mapRequiredPeople = (required_people: number) => {
     </div>
     
     <div class="mt-6 flex gap-2">
-        <button
-            class="flex-1 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
-        >
-            Connect
-        </button>
-        <button
-            class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-            Work Together
-        </button>
+        {existing_connection !== null && (
+            <span class="flex items-center gap-x-2 outline outline-gray-300 dark:outline-gray-700 w-full px-4 py-2 rounded-md text-center text-sm">
+                Connection request: <StatusBadge status={existing_connection.status} />
+            </span>
+        )}
+        {existing_connection === null && (
+            <button
+                data-user-id={user.clerk_user_id}
+                class="connect-button flex-1 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer"
+            >
+                Connect
+            </button>
+        )}
     </div>
 </div>

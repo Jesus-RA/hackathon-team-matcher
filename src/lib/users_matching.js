@@ -89,7 +89,6 @@ export const scoreInterests = (userA, userB) => {
 
     const userAInterests = new Set(userA.interests.map(t => t.name));
     const userBLookingFor = new Set(userB.looking_for.map(t => t.name));
-    console.log({userAInterests, userBLookingFor})
     
     const matchedPositions = userAInterests.intersection(userBLookingFor);
 
@@ -113,7 +112,6 @@ export const scoreLookingFor = (userA, userB) => {
 
     const userALookingFor = new Set(userA.looking_for.map(t => t.name));
     const userBInterests = new Set(userB.interests.map(t => t.name));
-    console.log({userALookingFor, userBInterests})
     
     const matchedPositions = userALookingFor.intersection(userBInterests);
 

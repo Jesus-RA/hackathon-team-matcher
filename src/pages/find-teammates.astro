@@ -4,6 +4,7 @@ import MatchingUserCard from '@/components/find-teammates/MatchingUserCard.astro
 
 import { getOtherUsersProfileData, getUserProfileData } from '@/lib/user_profile.js';
 import { calculateMatchingScore } from '@/lib/users_matching';
+import { checkExistingConnection } from '@/lib/connection_requests.js';
 
 const user = await Astro.locals.currentUser();
 let { data, error } = await getOtherUsersProfileData(user?.id);
@@ -13,12 +14,15 @@ if(error) {
  data = [];
 }
 
-const matchingUsers = data?.map(user => {
+const matchingUsers = await Promise.all(data?.map(async (user) => {
+    const existing_connection = await checkExistingConnection(currentUser?.clerk_user_id, user?.clerk_user_id);
+
     return {
         ...user,
-        matching_score: calculateMatchingScore(currentUser, user)
+        matching_score: calculateMatchingScore(currentUser, user),
+        existing_connection,
     };
-})
+}))
 ---
 
 <Layout title="Find Teammates">
@@ -40,3 +44,29 @@ const matchingUsers = data?.map(user => {
         )}
     </section>
 </Layout>
+
+<script is:inline define:vars={{ currentUserId: currentUser.clerk_user_id }} type="module">
+    import { createConnectionRequest } from '/src/lib/connection_requests.js';
+    
+
+    const connectWithDev = async (event) => {
+        const recipientUserId = event.currentTarget.dataset.userId;
+
+        try {
+            const response = await createConnectionRequest(currentUserId, recipientUserId);
+            if(!response) {
+                alert('Error connecting with dev, please try again later');
+            }
+            
+            // TODO: Show success message and turn Connect button into label displaying connection details
+            // TODO: Turn this component into a Vue component to be able to use sonner
+        } catch (error) {
+            console.error('Error connecting with dev:', error);
+        }
+    }
+
+    const connectButtons = document.querySelectorAll('.connect-button');
+    
+    connectButtons.forEach(button => button.addEventListener('click', connectWithDev));
+</script>
+    
