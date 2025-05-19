@@ -55,6 +55,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const updateData = {
             clerk_user_id: user.id,
             name: body.name,
+            job_title: body.job_title,
             github_username: body.github_username,
             portfolio: body.portfolio,
             bio: body.bio,

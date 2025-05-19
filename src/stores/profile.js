@@ -5,7 +5,7 @@ import { fetchUserRepos, getUserTechnologiesBasedOnRepos } from '@/lib/github.js
 export const $userProfile = map({
   clerk_user_id: null,
   name: '',
-  title: '',
+  job_title: '',
   github_username: '',
   portfolio: '',
   bio: '',

@@ -16,8 +16,8 @@
         <label for="title" class="block text-sm font-medium mb-1">Job Title</label>
         <input 
           id="title" 
-          v-model="form.title"
-          @change="updateUserProfileStore('title', form.title)"
+          v-model="form.job_title"
+          @change="updateUserProfileStore('job_title', form.job_title)"
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
@@ -93,7 +93,7 @@ const authStore = useStore($authStore);
 const loadingGitHubData = ref(false);
 const form = ref({
   name: '',
-  title: '',
+  job_title: '',
   github_username: '',
   portfolio: '',
   bio: '',
