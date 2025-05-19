@@ -5,33 +5,31 @@
       <span class="text-sm text-gray-500">(what type of teammate are you looking for)</span>
     </h2>
 
-    <section class="flex gap-x-2">
+    <section class="flex flex-wrap gap-3">
       <input 
         v-model="lookingFor"
-        type="text" 
+        type="text"
         list="positions"
         placeholder="Add a position you are looking for" 
-        class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
+        class="grow-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         @keyup.enter="localAddLookingFor"
       />
       <datalist id="positions">
         <option v-for="position in unselectedPositions" :key="position.id" :value="position.name"></option>
       </datalist>
-      <div class="w-24">
-        <select 
-          v-model="requiredPeople"
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 text-sm"
-        >
-          <option value="1">1 person</option>
-          <option value="2">2 people</option>
-          <option value="3">3 people</option>
-          <option value="4">4 people</option>
-          <option value="5">5+ people</option>
-        </select>
-      </div>
+      <select 
+        v-model="requiredPeople"
+        class="w-full md:w-auto px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 text-sm"
+      >
+        <option value="1">1 person</option>
+        <option value="2">2 people</option>
+        <option value="3">3 people</option>
+        <option value="4">4 people</option>
+        <option value="5">5+ people</option>
+      </select>
       <button 
         @click="localAddLookingFor" 
-        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium transition-opacity"
+        class="w-full md:w-auto px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium transition-opacity"
         :class="{'cursor-not-allowed opacity-50': !isValidEntry, 'hover:opacity-90': isValidEntry}"
         :disabled="!isValidEntry"
         :title="!validPositionSelected ? 'Please select a position' : requiredPeople === '0' ? 'Please select number of people required' : ''"

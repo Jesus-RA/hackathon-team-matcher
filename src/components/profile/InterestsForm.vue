@@ -5,13 +5,13 @@
       <span class="text-sm text-gray-500">(what you would like to work on)</span>
     </h2>
 
-    <section class="flex gap-x-2">
+    <section class="flex flex-wrap gap-3">
       <input 
         v-model="interest"
         type="text" 
         list="interests"
         placeholder="Add a position you are interested in" 
-        class="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
+        class="w-full md:w-auto grow-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         @keyup.enter="localAddInterest"
       />
       <datalist id="interests">
@@ -19,7 +19,7 @@
       </datalist>
       <button 
         @click="localAddInterest" 
-        class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium transition-opacity"
+        class="w-full md:w-auto px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium transition-opacity"
         :class="{'cursor-not-allowed opacity-50': !validInterestSelected, 'hover:opacity-90': validInterestSelected}"
         :disabled="!validInterestSelected"
       >

@@ -10,7 +10,7 @@
       <div class="flex justify-end">
         <button 
           @click="saveProfile" 
-          class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-medium transition-opacity"
+          class="w-full md:w-auto px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md font-medium transition-opacity"
           :class="{ 'opacity-50 cursor-not-allowed': loading, 'hover:opacity-90 cursor-pointer': !loading }"
           :disabled="loading"
         >

@@ -9,7 +9,7 @@
           v-model="form.name"
           @change="updateUserProfileStore('name', form.name)"
           type="text" 
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
       </div>
       <div>
@@ -19,7 +19,7 @@
           v-model="form.title"
           @change="updateUserProfileStore('title', form.title)"
           type="text" 
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
       </div>
       <div>
@@ -31,12 +31,12 @@
           v-model="form.github_username"
           @change="updateUserProfileStore('github_username', form.github_username)" 
           type="text" 
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
-        <div class="flex items-center justify-between gap-x-2 mt-2">
-          <span class="text-xs text-gray-800 dark:text-gray-300">Add your username to fetch your data from GitHub</span>
+        <div class="flex flex-wrap items-center justify-between gap-2 mt-2">
+          <span class="w-full md:w-auto text-xs text-gray-800 dark:text-gray-300">Add your username to fetch your data from GitHub</span>
           <button
-            class="px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
+            class="ml-auto md:w-auto px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
             :class="{ 'opacity-50 cursor-not-allowed': !form.github_username || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': form.github_username && !loadingGitHubData }"
             :disabled="!form.github_username || loadingGitHubData"
             @click="fetchUserDataFromGitHub"
@@ -53,7 +53,7 @@
           v-model="form.portfolio"
           @change="updateUserProfileStore('portfolio', form.portfolio)" 
           type="text" 
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
       </div>
       <div class="md:col-span-2">
@@ -63,7 +63,7 @@
           v-model="form.bio"
           @change="updateUserProfileStore('bio', form.bio)" 
           rows="3" 
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         ></textarea>
       </div>
     </div>
