@@ -18,7 +18,7 @@ export const createConnectionRequest = async (requesterUserId, recipientUserId) 
         .single();
 
     if (error) throw error;
-    return !!data.id;
+    return data.id;
 };
 
 /**
@@ -28,16 +28,17 @@ export const createConnectionRequest = async (requesterUserId, recipientUserId) 
  * @returns {Promise<any>} - The updated request
  */
 export const updateConnectionRequest = async (requestId, status) => {
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('connection_requests')
         .update({
             status,
-            updated_at: new Date().toISOString()
         })
         .eq('id', requestId);
+    
 
     if (error) throw error;
-    return data;
+
+    return true;
 };
 
 /**
@@ -89,3 +90,15 @@ export const checkExistingConnection = async (requesterUserId, recipientUserId) 
     if (error) return null;
     return data;
 };
+
+
+export const deleteConnectionRequest = async (requestId) => {
+    const { error } = await supabase
+        .from('connection_requests')
+        .delete()
+        .eq('id', requestId);
+
+    if (error) return false;
+
+    return true;
+}

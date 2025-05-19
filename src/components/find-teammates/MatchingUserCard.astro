@@ -1,5 +1,5 @@
 ---
-import StatusBadge from '@/components/connection-requests/StatusBadge.astro';
+import RequestConnectionButton from '@/components/find-teammates/RequestConnectionButton.vue';
 
 const { user } = Astro.props;
 
@@ -85,20 +85,8 @@ const mapRequiredPeople = (required_people: number) => {
             </ul>
         </section>
     </div>
-    
+
     <div class="mt-6 flex gap-2">
-        {existing_connection !== null && (
-            <span class="flex items-center gap-x-2 outline outline-gray-300 dark:outline-gray-700 w-full px-4 py-2 rounded-md text-center text-sm">
-                Connection request: <StatusBadge status={existing_connection.status} />
-            </span>
-        )}
-        {existing_connection === null && (
-            <button
-                data-user-id={user.clerk_user_id}
-                class="connect-button flex-1 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-md text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer"
-            >
-                Connect
-            </button>
-        )}
+        <RequestConnectionButton client:load user_id={user.clerk_user_id} existing_connection={existing_connection} />
     </div>
 </div>

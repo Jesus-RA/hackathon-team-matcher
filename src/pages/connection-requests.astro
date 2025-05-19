@@ -1,0 +1,30 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ConnectionRequestList from '@/components/connection-requests/ConnectionRequestsList.vue';
+
+import { getConnectionRequests } from '@/lib/connection_requests.js';
+
+const currentUser = await Astro.locals.currentUser();
+
+let requests = [];
+
+if (currentUser) {
+    requests = await getConnectionRequests(currentUser.id);
+}
+---
+
+<Layout title="Connection Requests">
+    <section class="max-w-4xl mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Connection Requests</h1>
+        
+        {requests.length === 0 && (
+            <div class="text-center py-12">
+                <p class="text-gray-600 dark:text-gray-400">No connection requests found.</p>
+            </div>
+        )}
+
+        <div class="flex flex-col gap-4">
+            <ConnectionRequestList client:load requests={requests} />
+        </div>
+    </section>
+</Layout>

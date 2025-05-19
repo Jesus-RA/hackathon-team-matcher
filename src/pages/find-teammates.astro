@@ -44,29 +44,3 @@ const matchingUsers = await Promise.all(data?.map(async (user) => {
         )}
     </section>
 </Layout>
-
-<script is:inline define:vars={{ currentUserId: currentUser.clerk_user_id }} type="module">
-    import { createConnectionRequest } from '/src/lib/connection_requests.js';
-    
-
-    const connectWithDev = async (event) => {
-        const recipientUserId = event.currentTarget.dataset.userId;
-
-        try {
-            const response = await createConnectionRequest(currentUserId, recipientUserId);
-            if(!response) {
-                alert('Error connecting with dev, please try again later');
-            }
-            
-            // TODO: Show success message and turn Connect button into label displaying connection details
-            // TODO: Turn this component into a Vue component to be able to use sonner
-        } catch (error) {
-            console.error('Error connecting with dev:', error);
-        }
-    }
-
-    const connectButtons = document.querySelectorAll('.connect-button');
-    
-    connectButtons.forEach(button => button.addEventListener('click', connectWithDev));
-</script>
-    
