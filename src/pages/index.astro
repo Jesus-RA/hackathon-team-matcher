@@ -41,7 +41,7 @@ import Footer from '@/sections/Footer.astro';
 					<span class="text-normal text-gray-600 dark:text-gray-400">For a smoother profile filling experience, sign up using GitHub.</span>
 				</div>
 				<img src="/images/landing/create-profile.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain block dark:hidden" />
-				<img src="/images/landing/create-profile-dark.svg" alt="" class="size-1/4 max-h-40 object-contain hidden dark:block" />
+				<img src="/images/landing/create-profile-dark.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain hidden dark:block" />
 			</div>
 			<div class="flex flex-col md:flex-row items-center justify-between gap-6 relative before:content-['2'] before:flex before:items-center before:justify-center before:font-bold before:text-white before:absolute before:-left-6 before:top-24 before:size-12 before:bg-gray-800 dark:before:bg-gray-100 dark:before:text-gray-800 before:rounded-full pl-16 border-s-2 border-gray-800 dark:border-gray-200 py-10">
 				<div>
@@ -49,7 +49,7 @@ import Footer from '@/sections/Footer.astro';
 					<p class="text-lg">Get suggestions based on shared skills, mutual needs, and team structure compatibility.</p>
 				</div>
 				<img src="/images/landing/devs.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain block dark:hidden" />
-				<img src="/images/landing/devs-dark.svg" alt="" class="size-1/4 max-h-40 object-contain hidden dark:block" />
+				<img src="/images/landing/devs-dark.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain hidden dark:block" />
 			</div>
 			<div class="flex flex-col md:flex-row items-center justify-between gap-6 relative before:content-['3'] before:flex before:items-center before:justify-center before:font-bold before:text-white before:absolute before:-left-6 before:top-24 before:size-12 before:bg-gray-800 dark:before:bg-gray-100 dark:before:text-gray-800 before:rounded-full pl-16 border-s-2 border-gray-800 dark:border-gray-200 py-10">
 				<div>
@@ -57,7 +57,7 @@ import Footer from '@/sections/Footer.astro';
 					<p class="text-lg">Reach out to your matches and start building amazing projects together.</p>
 				</div>
 				<img src="/images/landing/working-together.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain block dark:hidden" />
-				<img src="/images/landing/working-together-dark.svg" alt="" class="size-1/4 max-h-40 object-contain hidden dark:block" />
+				<img src="/images/landing/working-together-dark.svg" alt="" class="size-full md:size-1/4 max-h-40 object-contain hidden dark:block" />
 			</div>
 		</div>
 	</section>
@@ -96,19 +96,19 @@ import Footer from '@/sections/Footer.astro';
 		</ul>
 	</section>
 
-	<section>
-		<h2 class="text-4xl md:text-5xl font-bold text-center mb-12">Ready to build your dream team?</h2>
-		<p class="text-xl text-gray-600 dark:text-gray-400 text-center mb-12">
+	<section class="flex flex-col gap-y-12">
+		<h2 class="text-4xl md:text-5xl font-bold text-center">Ready to build your dream team?</h2>
+		<p class="text-xl text-gray-600 dark:text-gray-400 text-center">
 			Sign up and create your profile and start connecting with developers today.
 		</p>
 		
-		<div class="flex justify-center gap-4">
+		<div class="flex flex-col md:flex-row justify-center gap-6 md:gap-4">
 			<SignedOut>
 				<SignUpButton mode="modal" class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:opacity-90 transition-opacity">
 					Create Profile
 				</SignUpButton>
 			</SignedOut>
-			<a href="/find-teammates" class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+			<a href="/find-teammates" class="px-6 py-3 text-center border border-gray-300 dark:border-gray-700 rounded-lg font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
 				Find Teammates
 			</a>
 		</div>
@@ -118,9 +118,3 @@ import Footer from '@/sections/Footer.astro';
 
 </div>
 </Layout>
-
-<style is:inline>
-	* {
-		/* outline: 1px solid red; */
-	}
-</style>
