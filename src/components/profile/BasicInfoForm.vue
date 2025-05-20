@@ -29,16 +29,20 @@
         <input 
           id="github_username" 
           v-model="form.github_username"
+          @input="validateGitHubUsername"
           @change="updateUserProfileStore('github_username', form.github_username)" 
           type="text" 
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
         />
+        <div v-if="githubUsernameError" class="text-red-500 text-sm mt-1">
+          {{ githubUsernameError }}
+        </div>
         <div class="flex flex-wrap items-center justify-between gap-2 mt-2">
           <span class="w-full md:w-auto text-xs text-gray-800 dark:text-gray-300">Add your username to fetch your data from GitHub</span>
           <button
             class="ml-auto md:w-auto px-3 py-1 bg-gray-800 dark:bg-white text-white dark:text-gray-800 rounded-md font-medium text-xs"
-            :class="{ 'opacity-50 cursor-not-allowed': !form.github_username || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': form.github_username && !loadingGitHubData }"
-            :disabled="!form.github_username || loadingGitHubData"
+            :class="{ 'opacity-50 cursor-not-allowed': !form.github_username || githubUsernameError || loadingGitHubData, 'hover:opacity-90 transition-opacity cursor-pointer': form.github_username && !githubUsernameError && !loadingGitHubData }"
+            :disabled="!form.github_username || githubUsernameError || loadingGitHubData"
             @click="fetchUserDataFromGitHub"
           >
             Pull data <span v-if="!loadingGitHubData">↓</span>
@@ -112,6 +116,7 @@ const form = ref({
 
 const showPreview = ref(false);
 const githubData = ref({});
+const githubUsernameError = ref('');
 
 const handleApplyGitHubData = () => {
   showPreview.value = false;
@@ -143,7 +148,34 @@ const updateUserProfileStore = (key, value) => {
   $userProfile.setKey(key, value);
 }
 
+const validateGitHubUsername = (event) => {
+  const value = event.target.value;
+  
+  // Clear error if input is empty
+  if (!value) {
+    githubUsernameError.value = '';
+    return;
+  }
+
+  // Check if it looks like a URL
+  if (value.includes('http://') || value.includes('https://') || value.includes('github.com')) {
+    githubUsernameError.value = 'Please enter only your GitHub username (e.g., "john-doe"), not the full URL.';
+    return;
+  }
+
+  // Check if it contains invalid characters
+  if (!/^[a-zA-Z0-9-]{1,39}$/.test(value)) {
+    githubUsernameError.value = 'GitHub username can only contain letters, numbers, and hyphens, and must be between 1 and 39 characters.';
+    return;
+  }
+
+  // If all checks pass, clear the error
+  githubUsernameError.value = '';
+};
+
 const fetchUserDataFromGitHub = async () => {
+  if (!form.value.github_username) return;
+
   loadingGitHubData.value = true;
 
   const response = await fetch(`/api/github?username=${encodeURIComponent(form.value.github_username)}`);
