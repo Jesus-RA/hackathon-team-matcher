@@ -11,7 +11,6 @@ let requests = [];
 if (currentUser) {
     requests = await getConnectionRequests(currentUser.id);
 }
-console.log({recipient: requests?.[0].recipient, requester: requests?.[0].requester})
 ---
 
 <Layout title="Connection Requests">
