@@ -1,10 +1,11 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import MatchingUserCard from '@/components/find-teammates/MatchingUserCard.astro';
+// import MatchingUserCard from '@/components/find-teammates/MatchingUserCard.astro';
 
 import { getOtherUsersProfileData, getUserProfileData } from '@/lib/user_profile.js';
 import { calculateMatchingScore } from '@/lib/users_matching';
 import { checkExistingConnection } from '@/lib/connection_requests.js';
+import MatchingUsersList from '@/components/find-teammates/MatchingUsersList.vue';
 
 const user = await Astro.locals.currentUser();
 let { data, error } = await getOtherUsersProfileData(user?.id);
@@ -22,25 +23,9 @@ const matchingUsers = await Promise.all(data?.map(async (user) => {
         matching_score: calculateMatchingScore(currentUser, user),
         existing_connection,
     };
-}))
+}));
 ---
 
 <Layout title="Find Teammates">
-    <section class="h-dvh flex flex-col gap-y-6 md:gap-y-8 p-4 overflow-y-auto">
-        <h1 class="text-3xl font-bold">Find your team! 🚀</h1>
-        <p class="">Find potential team members for your hackathon project.</p>
-
-        {!matchingUsers.length && 
-            <section class="h-[50vh] flex items-center justify-center">
-                <p class="text-center bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-white  py-6 px-12 rounded shadow">There are no devs available yet. Share to your network to find potential team members.</p>
-            </section>
-        }
-        {matchingUsers?.length > 0 && (
-            <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" >
-                {matchingUsers.length && matchingUsers.map(user => (
-                    <MatchingUserCard user={user} />
-                ))}
-            </section>
-        )}
-    </section>
+    <MatchingUsersList client:load users={matchingUsers} />
 </Layout>
