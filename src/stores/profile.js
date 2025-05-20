@@ -7,6 +7,7 @@ export const $userProfile = map({
   name: '',
   job_title: '',
   github_username: '',
+  email: '',
   portfolio: '',
   bio: '',
   technologies: [],

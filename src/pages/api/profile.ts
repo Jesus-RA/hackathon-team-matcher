@@ -5,6 +5,7 @@ import type { Profile } from '@/types/profile';
 interface ProfileData {
   name: string;
   github_username: string;
+  email: string;
   portfolio: string;
   bio: string;
   technologies: string[];
@@ -57,6 +58,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             name: body.name,
             job_title: body.job_title,
             github_username: body.github_username,
+            email: body.email,
             portfolio: body.portfolio,
             bio: body.bio,
         }

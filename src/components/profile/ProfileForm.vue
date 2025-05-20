@@ -76,6 +76,7 @@ const saveProfile = async () => {
       position_id: position.id,
       required_people: position.required_people
     }));
+    body.email = body.email || '';
 
     if($userProfile.value.data_fetched_from_github){
       body.data_fetched_from_github = true;

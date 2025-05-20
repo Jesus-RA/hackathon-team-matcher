@@ -83,7 +83,16 @@
       </section>
     </div>
 
-    <div class="mt-6 flex gap-2">
+    <div class="flex items-center gap-3">
+      <a v-if="user.portfolio" :href="user.portfolio" target="_blank" class="cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+        <ExternalLink class="size-8" />
+      </a>
+      <a v-if="user.email && user.existing_connection?.status === 'accepted'" :href="'mailto:' + user.email" target="_blank" class="cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+        <Mail class="size-8" />
+      </a>
+      <a v-if="user.github" :href="'https://github.com/' + user.github" target="_blank" class="cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+        <GitHub class="size-8" />
+      </a>
       <RequestConnectionButton 
         :user-id="user.clerk_user_id" 
         :existing-connection="user.existing_connection" 
@@ -94,6 +103,9 @@
 
 <script setup>
 import RequestConnectionButton from '@/components/find-teammates/RequestConnectionButton.vue';
+import GitHub from '@/components/icons/GitHub.vue';
+import ExternalLink from '@/components/icons/ExternalLink.vue';
+import Mail from '@/components/icons/Mail.vue';
 
 const props = defineProps({
   user: {

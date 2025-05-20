@@ -9,7 +9,7 @@ import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.
 export const getOtherUsersProfileData = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, name, bio, job_title, github_username, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
+        .select('clerk_user_id, name, bio, job_title, github_username, email, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
         .neq('clerk_user_id', userId);
 
     // Map users data
@@ -68,7 +68,7 @@ export const getUsersWithTechnologies = async () => {
 export const getUserProfileData = async (userId) => {
     let { data, error } = await supabase
         .from('user_profiles')
-        .select('clerk_user_id, name, job_title, github_username, portfolio, bio, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
+        .select('clerk_user_id, name, job_title, github_username, email, portfolio, bio, user_technologies (technologies (id, name ) ), user_interested_positions (positions (id, name)), user_looking_for_positions (positions (id, name), required_people)')
         .eq('clerk_user_id', userId)
         .single();
 

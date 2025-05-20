@@ -83,7 +83,28 @@ export const getConnectionRequests = async (userId) => {
 export const checkExistingConnection = async (requesterUserId, recipientUserId) => {
     const { data, error } = await supabase
         .from('connection_requests')
-        .select('id, status')
+        .select(`
+            id,
+            status,
+            requester_user_id,
+            recipient_user_id,
+            requester: requester_user_id (
+                clerk_user_id,
+                name,
+                job_title,
+                bio,
+                email,
+                portfolio
+            ),
+            recipient: recipient_user_id (
+                clerk_user_id,
+                name,
+                job_title,
+                bio,
+                email,
+                portfolio
+            )
+        `)
         .or(`and(requester_user_id.eq.${requesterUserId},recipient_user_id.eq.${recipientUserId}),and(requester_user_id.eq.${recipientUserId},recipient_user_id.eq.${requesterUserId})`)
         .single();
 

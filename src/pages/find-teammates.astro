@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-// import MatchingUserCard from '@/components/find-teammates/MatchingUserCard.astro';
 
 import { getOtherUsersProfileData, getUserProfileData } from '@/lib/user_profile.js';
 import { calculateMatchingScore } from '@/lib/users_matching';
@@ -24,6 +23,7 @@ const matchingUsers = await Promise.all(data?.map(async (user) => {
         existing_connection,
     };
 }));
+console.log({existing_connection: matchingUsers[1].existing_connection})
 ---
 
 <Layout title="Find Teammates">

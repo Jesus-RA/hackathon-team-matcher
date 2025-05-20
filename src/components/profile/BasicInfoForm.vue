@@ -47,6 +47,17 @@
         </div>
       </div>
       <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+        <input 
+          id="email" 
+          v-model="form.email"
+          @change="updateUserProfileStore('email', form.email)" 
+          type="email" 
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:outline-none"
+        />
+        <span class="text-xs text-gray-600 dark:text-gray-400">Your email will be shared with your connections.</span>
+      </div>
+      <div>
         <label for="portfolio" class="block text-sm font-medium mb-1">Portfolio</label>
         <input 
           id="portfolio" 
