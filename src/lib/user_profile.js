@@ -113,7 +113,6 @@ export const getUserTechnologies = async (userId) => {
         .from('user_technologies')
         .select('technologies (id, name)')
         .eq('user_id', userId);
-    console.log({data})
 
     if(error) {
         throw error;

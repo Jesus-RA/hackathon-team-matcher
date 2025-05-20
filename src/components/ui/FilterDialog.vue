@@ -127,7 +127,6 @@ const dialog = useTemplateRef('dialog');
 const filters = ref({ ...props.modelValue });
 
 const show = () => {
-  console.log('show')
   dialog.value.showModal();
 };
 

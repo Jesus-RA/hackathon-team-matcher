@@ -66,13 +66,11 @@ export async function POST({ request, locals }: Astro.RequestEvent) {
         }
 
         const existingConnection = await checkExistingConnection(currentUser.id, recipient_user_id);
-        console.log({existingConnection})
         if (existingConnection) {
             return new Response(JSON.stringify({ error: 'Connection request already exists' }), { status: 400 });
         }
 
         const requestId = await createConnectionRequest(currentUser.id, recipient_user_id);
-        console.log({requestId})
         if (!requestId) {
             return new Response(JSON.stringify({ error: 'Failed to create connection request' }), { status: 500 });
         }

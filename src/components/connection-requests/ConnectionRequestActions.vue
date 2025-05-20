@@ -84,8 +84,6 @@ const updateConnectionRequest = async (status) => {
         });
         const data = await response.json();
 
-        console.log({response, data})
-
         if (!response.ok) {
             toast.error(`Failed to ${status} connection request, please try again later`);
             return;
@@ -111,8 +109,6 @@ const deleteConnectionRequest = async () => {
             },
         });
         const data = await response.json();
-
-        console.log({response, data})
 
         if (!response.ok) {
             toast.error(`Failed to cancel connection request, please try again later`);

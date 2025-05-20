@@ -63,7 +63,6 @@ export const hasCompleteProfile = () => {
 export const saveProfile = async () => {
   try {
     // TODO: Implement actual profile saving logic
-    console.log('Saving profile:', $userProfile);
   } catch (error) {
     this.error = error;
   }
