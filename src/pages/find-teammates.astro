@@ -1,13 +1,22 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 
-import { getOtherUsersProfileData, getUserProfileData } from '@/lib/user_profile.js';
+import { getOtherUsersProfileData, getUserProfileData, userProfileExists } from '@/lib/user_profile.js';
 import { calculateMatchingScore } from '@/lib/users_matching';
 import { checkExistingConnection } from '@/lib/connection_requests.js';
 import MatchingUsersList from '@/components/find-teammates/MatchingUsersList.vue';
 
 const user = await Astro.locals.currentUser();
-let { data, error } = await getOtherUsersProfileData(user?.id);
+if(!user) {
+    return Astro.redirect('/home');
+}
+
+const userProfileExistsInDB = await userProfileExists(user.id);
+if(!userProfileExistsInDB) {
+    return Astro.redirect('/profile?m=profile_not_found');
+}
+
+let { data, error } = await getOtherUsersProfileData(user.id);
 const currentUser = await getUserProfileData(user?.id);
 
 if(error) {

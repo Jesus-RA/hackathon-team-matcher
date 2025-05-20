@@ -8,8 +8,7 @@ import { fetchUserProfile, getUserTechnologiesBasedOnRepos } from '@/lib/github.
 const user = await Astro.locals.currentUser();
 
 if(!user) {
-    Astro.redirect('/sign-in');
-    return;
+    return Astro.redirect('/home');
 }
 
 const profileData = {

@@ -31,7 +31,7 @@ import LookingForForm from './LookingForForm.vue';
 import { Toaster, toast } from 'vue-sonner';
 import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, onMounted } from 'vue';
 
 import { $userProfile } from '@/stores/profile.js';
 import { useStore } from '@nanostores/vue';
@@ -65,6 +65,15 @@ onBeforeMount(async () => {
   
   populateUserProfileStore();  
 });
+
+onMounted(() => {
+  const urlParams = new URLSearchParams(location.search);
+  const profileNotFound = urlParams.get('m') === 'profile_not_found';
+
+  if(profileNotFound){
+    toast.info('Complete your profile first to find teammates');
+  }
+})
 
 const saveProfile = async () => {
   try{
