@@ -25,7 +25,7 @@ import { Toaster, toast } from 'vue-sonner';
 import StatusBadge from '@/components/connection-requests/StatusBadge.vue';
 import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 
-import { ref, defineProps, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const { userId, existingConnection } = defineProps({
     userId: {

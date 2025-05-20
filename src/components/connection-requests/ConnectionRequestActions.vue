@@ -45,7 +45,7 @@ import SpinnerLoader from '@/components/ui/SpinnerLoader.vue';
 import { $authStore } from '@clerk/astro/client';
 import { useStore } from '@nanostores/vue';
 
-import { ref, computed, defineEmits } from 'vue';
+import { ref } from 'vue';
 
 const { request } = defineProps({
     request: {

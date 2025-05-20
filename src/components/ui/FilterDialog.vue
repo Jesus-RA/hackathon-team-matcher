@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, useTemplateRef, defineProps, defineEmits, watch, onMounted, onUnmounted } from 'vue';
+import { ref, useTemplateRef, watch, onMounted, onUnmounted } from 'vue';
 import MultiSelect from '@/components/ui/MultiSelect.vue';
 
 const props = defineProps({

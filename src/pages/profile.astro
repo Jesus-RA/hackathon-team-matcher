@@ -35,8 +35,10 @@ if(!userProfileExistsInDB && profileData.github_username){ // If user profile do
     profileData.portfolio = profile?.blog;
     profileData.bio = profile?.bio;
     profileData.technologies = technologies;
-} else {
-    // If user profile exists in DB, get it from DB
+}
+
+// If user profile exists in DB, get it from DB
+if(userProfileExistsInDB){
     const profile = await getUserProfileData(user.id);
 
     Object.entries(profile).forEach(([key, value]) => {
