@@ -57,14 +57,14 @@ export const getConnectionRequests = async (userId) => {
                 name,
                 job_title,
                 bio,
-                user_technologies (technologies (id, name))
+                email
             ),
             recipient:recipient_user_id (
                 clerk_user_id,
                 name,
                 job_title,
                 bio,
-                user_technologies (technologies (id, name))
+                email
             )
         `)
         .or(`requester_user_id.eq.${userId},recipient_user_id.eq.${userId}`)
